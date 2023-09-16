@@ -6,9 +6,6 @@ import javax.management.RuntimeErrorException;
 
 public abstract class Ativo{
 
-
-    //git bababababababaab
-
     protected String codNegociacao; //XXXXY X são letras Y é um número
     private double cotacao;
     private String liquidacao; 

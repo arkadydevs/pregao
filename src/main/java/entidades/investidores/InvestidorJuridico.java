@@ -1,7 +1,6 @@
 package entidades.investidores;
 
 import br.com.caelum.stella.validation.CNPJValidator;
-import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 import entidades.Carteira;
 import estruturas_de_dados.lista.ListaEncadeada;
