@@ -1,5 +1,9 @@
 package entidades.investidores;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import entidades.Carteira;
 import estruturas_de_dados.lista.ListaEncadeada;
 
@@ -48,11 +52,34 @@ public abstract class Investidor{
     }
 
 
-    /*public void comprarAcao(String codAtivo, int quantidade){
-        if(== codAtivo){
-            int teste = codAtivo.getPreco() * quantidade;
-            saldo=-teste;
+    public void comprarAcao(String codAtivo, int quantidade) {
+        String caminhoArquivo = "src\\main\\java\\bancos_de_dados\\fii.txt"; 
+    
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            int numeroLinha = 1;
+    
+            while ((linha = br.readLine()) != null) {
+                String[] partes = linha.split(",");
+                String id = partes[0].trim(); 
+                if (id.equals(codAtivo)) {
+                    double cotacao = Double.parseDouble(partes[1].trim());
+                    int lote = Integer.parseInt(partes[4].trim()); 
+                        if (quantidade < lote) {
+                            System.out.println("Você não comprou a quantidade mínima de ações necessárias");
+                        }
+                        else{
+                            double saldo = getSaldo() - (cotacao * quantidade);
+                            setSaldo(saldo);
+                            System.out.println(getSaldo());
+                        }
+                }
+                numeroLinha++;
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         }
-    }*/
+    
 
+    }
 }
