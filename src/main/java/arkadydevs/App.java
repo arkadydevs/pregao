@@ -10,9 +10,10 @@ public class App
 {
     public static void main( String[] args )
     {
-        Investidor vs = new InvestidorFisico(1, "null", 10000000, null, null);
+        InvestidorFisico vs = new InvestidorFisico(1, "null", 10000000, null, null);
         vs.comprarAcao("MXRF11B", 100);
-      
+        Menu mn = new Menu();
+        mn.inicio();
         
     }
 }

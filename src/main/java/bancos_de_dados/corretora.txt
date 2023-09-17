@@ -1,0 +1,6 @@
+id, nome
+
+1, Corretora Alpha
+2, Corretora Beta
+3, Corretora Gama
+4, Corretora Delta
