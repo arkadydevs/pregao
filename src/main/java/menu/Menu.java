@@ -9,7 +9,7 @@ public class Menu {
 
     }
     
-    public void inicio(){
+    /*public void inicio(){
         CNPJValidator validator = new CNPJValidator();
         Scanner sc = new Scanner(System.in);
         System.out.println("Bem vindo ao Pregão 231!\n Quer logar como:\n\n 1-Pessoa jurídica\n 2-Pessoa física\n");
@@ -20,10 +20,14 @@ public class Menu {
             String cnpj = sc.nextLine();
             //ver se cnpj esta no txt
             if(validator.assertValid(cnpj)){
-                System.out.println("1- ");
+                System.out.println("1- Comprar ativos \n 2- Vender ativos \n 3- Histórico de compras \n 4- Voltar na página anterior \n Digite o que quer: ");
+                int comando = sc.nextInt();
+                if(comando == 1){
+                    
+                }
             }
             else{
-                System.out.println("CNPJ inválido ou não cadastrado")
+                System.out.println("CNPJ inválido ou não cadastrado");
             }
         }
         else if(primeiro == 2){
@@ -38,7 +42,7 @@ public class Menu {
             System.out.println("");
         }
         sc.close();
-    }
+    }*/
 
     
 }
