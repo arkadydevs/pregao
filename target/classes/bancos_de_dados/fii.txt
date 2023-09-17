@@ -1,0 +1,5 @@
+codNegociacao, cotacao, liquidacao, dataLiquidacao, lote
+
+HGLG11B, 175.50, "Financeira", 2023-09-20, 50
+VINO11B, 120.80, "Financeira", 2023-09-21, 75
+MXRF11B, 12.45, "Financeira", 2023-09-19, 100

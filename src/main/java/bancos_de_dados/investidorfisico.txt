@@ -1,0 +1,7 @@
+id, nome, saldo, carteiras, cpf
+
+1, João da Silva, 1000.00, null, 165.637.344-05
+2, Maria Souza, 2500.50, null, 571.849.573-42
+3, Pedro Alves, 500.75, null, 868.124.579-14
+4, Ana Oliveira ,1500.25, null, 288.854.424-55
+5, Luiz Santos, 300.00, null, 271.304.348-48

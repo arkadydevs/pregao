@@ -1,0 +1,5 @@
+codNegociacao, cotacao, liquidacao, dataLiquidacao, lote
+
+AMER3, 0.81, "Financeira", 04/10/2023, 15
+PETR3, 36.90, "Financeira", 03/10/2023, 100
+CRFB3, 9.91, 'Financeira", 06/10/2023, 80

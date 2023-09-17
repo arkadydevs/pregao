@@ -1,0 +1,7 @@
+id, nome, saldo, carteiras, cnpj
+
+1, Micro Luk, 10000.00, null, 65.555.738/0001-60	
+2, Global Finance SA, 7500.50, null, 02.778.276/0001-20	
+3, Energia verde SA, 3000.75, null, 11.327.270/0001-28	
+4, Ocean View Holdings, 500.25, null, 82.811.033/0001-86	
+5, Estrela Enterprises, 12000.00, null, 65.306.052/0001-36	
