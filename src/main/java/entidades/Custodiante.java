@@ -1,22 +1,28 @@
 package entidades;
 import java.util.Map;
 import entidades.investidores.Investidor;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import estruturas_de_dados.lista.ListaEncadeada;
 
 public class Custodiante {
-    private Map<Investidor, List<Carteira>> custodia;
+                
+    private Map<Investidor, ListaEncadeada<Carteira>> custodia;
 
-    public Custodiante() {
-        custodia = new HashMap<>();
+    public Custodiante(Map<Investidor, ListaEncadeada<Carteira>> custodia) {
+         this.setCustodia(custodia);
     }
 
-    public List<Carteira> obterCarteiras(Investidor investidor) {
-        if (custodia.containsKey(investidor)) {
+    public ListaEncadeada<Carteira> obterCarteiras(Investidor investidor) {
+        if (custodia.containsValue(investidor)) {
             return custodia.get(investidor);
         }
-        return new ArrayList<>(); 
+        return new ListaEncadeada<>(); 
+    }
+
+    public Map<Investidor, ListaEncadeada<Carteira>> getCustodia() {
+        return custodia;
+    }
+    public void setCustodia(Map<Investidor, ListaEncadeada<Carteira>> custodia) {
+        this.custodia = custodia;
     }
 
 }

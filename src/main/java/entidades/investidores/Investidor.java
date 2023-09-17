@@ -47,4 +47,12 @@ public abstract class Investidor{
         this.carteiras = carteiras;
     }
 
+
+    /*public void comprarAcao(String codAtivo, int quantidade){
+        if(== codAtivo){
+            int teste = codAtivo.getPreco() * quantidade;
+            saldo=-teste;
+        }
+    }*/
+
 }

@@ -2,7 +2,6 @@ package entidades.ativos;
 
 import java.time.LocalDate;
 
-import javax.management.RuntimeErrorException;
 
 public abstract class Ativo{
 
@@ -30,7 +29,7 @@ public abstract class Ativo{
         if(validarCodNegociacao() == true){
         this.codNegociacao = codNegociacao;
         } else{
-            throw new RuntimeErrorException(null, "Código de negociação inválido");
+            throw new IllegalArgumentException("Código de negociação inválido");
         }
     }
 

@@ -8,6 +8,7 @@ public class Ordinaria extends Ativo {
         super(codNegociacao, cotacao, liquidacao, dataLiquidacao, lote);
     
     }
+
     @Override
     public boolean validarCodNegociacao() { 
         if (codNegociacao.length() != 5 || !Character.isLetter(codNegociacao.charAt(0)) ||
@@ -17,6 +18,9 @@ public class Ordinaria extends Ativo {
         }
         return false;
     }
+
+ 
+    
     
     
 }

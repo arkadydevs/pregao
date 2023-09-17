@@ -19,11 +19,26 @@ public class Carteira {
         this.carteiras = carteiras;
     }
 
+    public void addCarteira (Ativo ativo){
+        if (ativo == null){
+            throw new IllegalArgumentException ("O código de negociação não pode ser nulo.");
+        }
+
+        if (!carteiras.contem(ativo)) {
+            carteiras.addElemento(ativo);
+        } else {
+            System.out.println("A carteira já existe.");
+        }
+    }
+
     public Corretora getCorretora() {
         return corretora;
     }
 
     public void setCorretora(Corretora corretora) {
+        if(corretora == null){
+            throw new IllegalArgumentException("É preciso ter uma corretora para criar uma carteira.");
+        }
         this.corretora = corretora;
     }
 }
