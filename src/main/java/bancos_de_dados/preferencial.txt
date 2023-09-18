@@ -1,7 +1,2 @@
-codNegociacao, cotacao, liquidacao, dataLiquidacao, lote
+6, Sofia Vergueiro, 450.56, null,165.637.344-05Dados: 6, Sofia Vergueiro, 450.56, null,165.637.344-05
 
-AZUL4, 25.20, "Financeira", 2023-09-20, 75
-ITSA4, 12.80, "Financeira", 2023-09-21, 120
-ITUB4, 27,58, "Física", 2023-09-19, 90
-ABEV4, 19.85, "Financeira", 2023-09-22, 60
-PETR4, 33,89, "Física", 2023-09-18, 110

@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 import br.com.caelum.stella.validation.CNPJValidator;
 import entidades.investidores.Investidor;
-import entidades.investidores.InvestidorJuridico;
 
 public class Menu {
     public Menu(){

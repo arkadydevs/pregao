@@ -5,3 +5,7 @@ id, nome, saldo, carteiras, cpf
 3, Pedro Alves, 500.75, null, 868.124.579-14
 4, Ana Oliveira ,1500.25, null, 288.854.424-55
 5, Luiz Santos, 300.00, null, 271.304.348-48
+6, Sofia Vergueiro, 450.56, null, 165.637.344-05
+7, Bunda burguer, 666.66, null, 165.407.950-25
+
+7, Bunda burguer, 666.66, null, 165.407.950-25
