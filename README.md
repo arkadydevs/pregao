@@ -1,23 +1,29 @@
 ## Pregão Bolsa de Valores
+Pregão feito para composição da nota de LG2.
 
-Pregão feito para composição da nota de LGP-1.
+### Integrantes do grupo:
+- Ana luísa de Oliveira Camardella
+- Carlos Alberto Pereira Lustosa Júnior
+- João Augusto Haupt Fonseca Oliveira
 
-## Estururas de Dados Implementadas
+## Visão geral
+Este é um projeto Java que implementa uma simulação de um pregão simplificado, utilizando bancos de dados em formato de arquivo de texto (TXT) para guardar os dados das classes. Utilizamos a linguagem Java, com uma lógica fortemente orientada a objetos.
 
-### Lista Encadeada
-- `.addElemento(elemento)` : Adiciona um elemento no final da lista.
+### Entidades (Obs: todas possuem um banco de dados asssociado)
+- Ativos (Ordinária, preferencial e FII)
+- Investidores (Físico e jurídico)
+- Carteira
+- Corretora
+- Custodiante
 
-- `.removerElementoValor(elemento)` : Remove o elemente desejado da lista, se ele existir.
+### Estruturas de dados:
+- Pilha
+- Lista encadeada
+- Árvore
+- Fila
 
-- `.contem(elemento)` : Verifica se um elemento existe dentro da lista, retorna um boolean.
+### Extra:
+- Maven (para verificar cpfs e cnpjs)
+- Menu parcialmente completo
+- Métodos de compra parcialmente implementados
 
-- `.get(posicao)` : Retorna o elemento que está em determinada posição, se essa posição existir.
-
-### Fila (Queue)
-- 
-
-
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
