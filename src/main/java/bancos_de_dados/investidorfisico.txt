@@ -7,5 +7,3 @@ id, nome, saldo, carteiras, cpf
 5, Luiz Santos, 300.00, null, 271.304.348-48
 6, Sofia Vergueiro, 450.56, null, 165.637.344-05
 7, Bunda burguer, 666.66, null, 165.407.950-25
-
-7, Bunda burguer, 666.66, null, 165.407.950-25

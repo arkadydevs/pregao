@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import br.com.caelum.stella.validation.CNPJValidator;
-import entidades.investidores.Investidor;
 
 public class Menu {
     public Menu(){
@@ -14,7 +13,6 @@ public class Menu {
     }
     
     public void inicio() {
-        CNPJValidator validator = new CNPJValidator();
         Scanner sc = new Scanner(System.in);
         System.out.println("Bem vindo ao Pregão 231!\n Quer logar como:\n\n 1-Pessoa jurídica\n 2-Pessoa física\n");
         int primeiro = sc.nextInt();

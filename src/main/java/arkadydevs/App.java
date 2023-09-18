@@ -11,15 +11,7 @@ public class App
 {
     public static void main( String[] args )
     {  
-        int id = 7;
-        String nome = "Bunda burguer";
-        Double saldo = 666.66;
-        String cpf = "165.407.950-25";
-
-        String dados = Integer.toString(id) + ", " + nome +", " + Double.toString(saldo) + ", " + "null" + ", "+ cpf;
-        
-        System.out.println(dados);
-        Registro teste = new Registro("investidorfisico", dados);
-        teste.insert(teste);
+        InvestidorFisico iv = new InvestidorFisico(1, null, 100000, null, null);
+        iv.comprarAcao("AMER3", 110);
     }
 }
