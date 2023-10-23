@@ -1,11 +1,12 @@
-<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=ff4500&height=120&section=header"/>
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=f2b0de&height=120&section=header"/>
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=DAA520&size=35&center=true&vCenter=true&width=1000&lines=Olá!,+Seja+Bem+Vindo+ao+Pregão+Arkady!;Simulamos+um+pregão+de+bolsa+de+valores;desenvolvido+em+Java!+:%29)](https://git.io/typing-svg)
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=bbaefc&size=35&center=true&vCenter=true&width=1000&lines=Olá!,+Seja+Bem+Vindo+ao+Pregão+Arkady!;Simulamos+um+pregão+de+bolsa+de+valores;desenvolvido+em+Java!+:%29)](https://git.io/typing-svg)
 
 
-## <center> <span style="color: orange;"> Pregão Bolsa de Valores </span> </center>
+## <center> <span style="color: pink;"> Pregão Bolsa de Valores </span> </center>
 
 <center> <img src="https://i.imgur.com/JmoinSk.jpeg" width="250" height="300"> </center>
+<center><strong>Logo do projeto<strong></center>
 
 
 ### <center> <span style="color: pink;"> Pregão feito para avalição da disciplina de LG2.</span> </center>
@@ -52,6 +53,6 @@ Este é um projeto Java que implementa uma simulação de um pregão simplificad
 - Menu parcialmente completo
 - Métodos de compra parcialmente implementados
 
-<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=ff4500&height=120&section=header"/>
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=f2b0de&height=120&section=header"/>
 
 
