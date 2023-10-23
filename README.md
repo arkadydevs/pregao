@@ -1,8 +1,13 @@
-## Pregão Bolsa de Valores
-Pregão feito para composição da nota de LG2.
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=ff4500&height=120&section=header"/>
+
+[![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=DAA520&size=35&center=true&vCenter=true&width=1000&lines=Olá!,+Seja+bem+vindo+ao+Pregão+Arkady!;:%29)](https://git.io/typing-svg)
+
+## Pregão Bolsa de Valores 
+### Pregão feito para composição da nota de LG2.
+
 
 ### Integrantes do grupo:
-- Ana luísa de Oliveira Camardella
+- Ana Luísa de Oliveira Camardella
 - Carlos Alberto Pereira Lustosa Júnior
 - João Augusto Haupt Fonseca Oliveira
 
@@ -26,4 +31,7 @@ Este é um projeto Java que implementa uma simulação de um pregão simplificad
 - Maven (para verificar cpfs e cnpjs)
 - Menu parcialmente completo
 - Métodos de compra parcialmente implementados
+
+<img width=100% src="https://capsule-render.vercel.app/api?type=waving&color=ff4500&height=120&section=header"/>
+
 
