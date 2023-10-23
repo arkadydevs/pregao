@@ -3,14 +3,16 @@
 [![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=bbaefc&size=35&center=true&vCenter=true&width=1000&lines=Olá!,+Seja+Bem+Vindo+ao+Pregão+Arkady!;Simulamos+um+pregão+de+bolsa+de+valores;desenvolvido+em+Java!+:%29)](https://git.io/typing-svg)
 
 
-## <center> <span style="color: pink;"> Pregão Bolsa de Valores </span> </center>
+## <p align="center">Pregão Bolsa de Valores</p>
 
-<center> <img src="https://i.imgur.com/JmoinSk.jpeg" width="250" height="300"> </center>
-<center><strong>Logo do projeto<strong></center>
+<p align="center">
+ <b> <img src="https://i.imgur.com/JmoinSk.jpeg" width="250" height="300"> </b>
+</p>
+<p align="center">
+ <b><strong>Logo do projeto<strong></b>
+</p>
 
-
-### <center> <span style="color: pink;"> Pregão feito para avalição da disciplina de LG2.</span> </center>
-
+### <p align="center">Pregão feito para avalição da disciplina de LG2.</p>
 
 ### <span style="color: orange;"> Integrantes do grupo: </span>
 - Ana Luísa de Oliveira Camardella
