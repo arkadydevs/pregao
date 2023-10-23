@@ -58,4 +58,8 @@ public class InvestidorFisico extends Investidor{
         return false;
     }
 
+    public void comprarAcao(String string, int i) {
+        System.out.println("Ação comprada com sucesso!");
+    }
+
 }
