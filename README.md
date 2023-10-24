@@ -2,7 +2,7 @@
 
 [![Typing SVG](https://readme-typing-svg.herokuapp.com/?color=bbaefc&size=35&center=true&vCenter=true&width=1000&lines=Olá!,+Seja+Bem+Vindo+ao+Pregão+Arkady!;Simulamos+um+pregão+de+bolsa+de+valores;desenvolvido+em+Java!+:%29)](https://git.io/typing-svg)
 
-
+## 
 ## <p align="center">Pregão Bolsa de Valores</p>
 
 <p align="center">
