@@ -17,18 +17,6 @@
 - Carlos Alberto Pereira Lustosa Júnior
 - João Augusto Haupt Fonseca Oliveira
 
-
-## <center> <span style="color: orange;"> Pregão Bolsa de Valores </span> </center>
-
-
-### <center> <span style="color: pink;"> Pregão feito para avalição da disciplina de LG2.</span> </center>
-
-
-### <span style="color: orange;"> Integrantes do grupo: </span>
-- Ana Luísa de Oliveira Camardella
-- Carlos Alberto Pereira Lustosa Júnior
-- João Augusto Haupt Fonseca Oliveira
-
 ## <span style= "color: pink;"> Visão geral </span>
 Este é um projeto Java que implementa uma simulação de um pregão simplificado, utilizando bancos de dados em formato de arquivo de texto (TXT) para guardar os dados das classes. Utilizamos a linguagem Java, com uma lógica fortemente orientada a objetos.
 
