@@ -71,9 +71,9 @@ public abstract class Investidor{
     }
 
     public void comprarAcao(
-        
+
     ) {
-        String caminhoArquivo = null; 
+        String caminhoArquivo = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("Insira o ticket do ativo:");
         String codAtivo = sc.nextLine();
@@ -83,14 +83,14 @@ public abstract class Investidor{
 
 
         if (codAtivo.length() == 7) {
-            caminhoArquivo = "src\\main\\java\\bancos_de_dados\\fii.txt"; 
+            caminhoArquivo = "src\\main\\java\\bancos_de_dados\\fii.txt";
         } else if (codAtivo.length() == 5 && codAtivo.charAt(4) == '4') {
-            caminhoArquivo = "src\\main\\java\\bancos_de_dados\\preferencial.txt"; 
+            caminhoArquivo = "src\\main\\java\\bancos_de_dados\\preferencial.txt";
         } else if (codAtivo.length() == 5 && codAtivo.charAt(4) == '3') {
-            caminhoArquivo = "src\\main\\java\\bancos_de_dados\\ordinaria.txt"; 
+            caminhoArquivo = "src\\main\\java\\bancos_de_dados\\ordinaria.txt";
         } else {
             System.err.println("Ticket do ativo não é válido");
-            return; 
+            return;
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
@@ -99,18 +99,18 @@ public abstract class Investidor{
 
             while ((linha = br.readLine()) != null) {
                 String[] partes = linha.split(",");
-                String id = partes[0].trim(); 
+                String id = partes[0].trim();
                 if (id.equals(codAtivo)) {
                     double cotacao = Double.parseDouble(partes[1].trim());
-                    int lote = Integer.parseInt(partes[4].trim()); 
-                        if (quantidade < lote) {
-                            System.out.println("Você não comprou a quantidade mínima de ações necessárias");
-                        }
-                        else{
-                            double saldo = getSaldo() - (cotacao * quantidade);
-                            setSaldo(saldo);
-                            System.out.println(getSaldo());
-                        }
+                    int lote = Integer.parseInt(partes[4].trim());
+                    if (quantidade < lote) {
+                        System.out.println("Você não comprou a quantidade mínima de ações necessárias");
+                    }
+                    else{
+                        double saldo = getSaldo() - (cotacao * quantidade);
+                        setSaldo(saldo);
+                        System.out.println(getSaldo());
+                    }
                 }
                 numeroLinha++;
             }
@@ -128,79 +128,79 @@ public abstract class Investidor{
         Scanner sc = new Scanner(System.in);
         String codAtivo = null;
         int quantidade = 0;
-        
+
         try {
             System.out.println("Insira a quantidade de diferentes ativos que deseja comprar:");
             int numCompras = sc.nextInt();
-        
-            sc.nextLine(); 
-        
+
+            sc.nextLine();
+
             if (numCompras <= 0) {
                 System.err.println("Você deve comprar pelo menos um ativo.");
                 return;
             }
-        
+
             for (int i = 0; i < numCompras; i++) {
                 System.out.println("Insira o ticket do ativo:");
-                codAtivo = sc.nextLine(); 
-                
+                codAtivo = sc.nextLine();
+
                 if (codAtivo.length() == 7) {
-                    caminhoArquivo = "src\\main\\java\\bancos_de_dados\\fii.txt"; 
+                    caminhoArquivo = "src\\main\\java\\bancos_de_dados\\fii.txt";
                 } else if (codAtivo.length() == 5 && codAtivo.charAt(4) == '4') {
-                    caminhoArquivo = "src\\main\\java\\bancos_de_dados\\preferencial.txt"; 
+                    caminhoArquivo = "src\\main\\java\\bancos_de_dados\\preferencial.txt";
                 } else if (codAtivo.length() == 5 && codAtivo.charAt(4) == '3') {
-                    caminhoArquivo = "src\\main\\java\\bancos_de_dados\\ordinaria.txt"; 
+                    caminhoArquivo = "src\\main\\java\\bancos_de_dados\\ordinaria.txt";
                 } else {
                     System.err.println("Ticket do ativo não é válido");
-                    return; 
+                    return;
                 }
-            
+
                 System.out.println("Insira a quantidade de ações que deseja comprar:");
                 quantidade = sc.nextInt();
-                
+
                 filaCodigo.addElemento(codAtivo);
                 filaQuantidade.addElemento(quantidade);
-              
-        
+
+
             }
-    
+
             try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
                 String linha;
                 int numeroLinha = 1;
-                
-        for (int i = 0; i < filaCodigo.getTamanho(); i++) {
-            while ((linha = br.readLine()) != null) {
-                String[] partes = linha.split(",");
-                String id = partes[0].trim();
-                
-                if (id.equals(filaCodigo.get(i))) {
-                    double cotacao = Double.parseDouble(partes[1].trim());
-                    int lote = Integer.parseInt(partes[4].trim());
-                    
-                   Elemento<Integer> elemento = filaQuantidade.get(i); 
-                    quantidade = elemento.getValor(); 
-                    if (quantidade < lote) {
-                        System.out.println("Você não comprou a quantidade mínima de ações necessárias");
-                    } else {
-                        double custo = cotacao * quantidade;
-                        if (custo <= getSaldo()) {
-                            double saldoAtual = getSaldo() - custo;
-                            setSaldo(saldoAtual);
-                            System.out.println("Saldo atual: " + getSaldo());
-                        } else {
-                            System.out.println("Saldo insuficiente para comprar " + quantidade + " ações de " + id);
+
+                for (int i = 0; i < filaCodigo.getTamanho(); i++) {
+                    while ((linha = br.readLine()) != null) {
+                        String[] partes = linha.split(",");
+                        String id = partes[0].trim();
+
+                        if (id.equals(filaCodigo.get(i))) {
+                            double cotacao = Double.parseDouble(partes[1].trim());
+                            int lote = Integer.parseInt(partes[4].trim());
+
+                            Elemento<Integer> elemento = filaQuantidade.get(i);
+                            quantidade = elemento.getValor();
+                            if (quantidade < lote) {
+                                System.out.println("Você não comprou a quantidade mínima de ações necessárias");
+                            } else {
+                                double custo = cotacao * quantidade;
+                                if (custo <= getSaldo()) {
+                                    double saldoAtual = getSaldo() - custo;
+                                    setSaldo(saldoAtual);
+                                    System.out.println("Saldo atual: " + getSaldo());
+                                } else {
+                                    System.out.println("Saldo insuficiente para comprar " + quantidade + " ações de " + id);
+                                }
+                            }
                         }
                     }
                 }
-            }
-}   
 
             } catch (IOException e) {
                 System.err.println("Erro ao ler o arquivo: " + e.getMessage());
-                e.printStackTrace(); 
+                e.printStackTrace();
             }
         } finally {
-            sc.close(); 
+            sc.close();
         }
     }
 }

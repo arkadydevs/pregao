@@ -22,7 +22,7 @@ public class InvestidorFisico extends Investidor{
         this.setCpf(cpf);
     }
 
-    
+
     public String getCpf() {
 
         return cpf;

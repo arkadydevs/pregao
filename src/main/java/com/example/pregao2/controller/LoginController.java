@@ -1,6 +1,7 @@
 package com.example.pregao2.controller;
 
 
+import com.example.pregao2.MainApp;
 import entidades.investidores.InvestidorFisico;
 import entidades.investidores.InvestidorJuridico;
 import javafx.event.ActionEvent;
@@ -23,6 +24,8 @@ public class LoginController {
     private CheckBox checkBoxJuridico;
     @FXML
     private TextField senhaTextField;
+    @FXML
+    private Button botaoVoltar;
 
     @FXML
     public void initialize(){
@@ -55,6 +58,12 @@ public class LoginController {
         }
     }
 
+    @FXML
+    public void OnActionVoltar(ActionEvent event){
+        SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
+        sceneSwitcher.switchScene("/pregaoInicialScreen.fxml");
+
+    }
     @FXML
     public void OnActionLogin(ActionEvent event)throws IOException {
         if (checkBoxJuridico.isSelected()) {
