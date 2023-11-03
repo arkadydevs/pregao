@@ -1,12 +1,29 @@
 package entidades.ativos;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 
 public class Ordinaria extends Ativo {
 
-    public Ordinaria(String codNegociacao, double cotacao, String liquidacao, LocalDate dataLiquidacao, int lote) {
-        super(codNegociacao, cotacao, liquidacao, dataLiquidacao, lote);
+    public Ordinaria(String codNegociacao, double cotacao,int lote) {
+        super(codNegociacao, cotacao, lote);
 
+    }
+
+    public void insert(Ordinaria ordinaria) {
+        String caminhoArquivo = "src\\main\\java\\bancos_de_dados\\ordinaria.txt";
+
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, true);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+
+            printWriter.println(ordinaria.getCodNegociacao() + " " + ordinaria.getCotacao() + " " + ordinaria.getLote());
+
+        } catch (IOException e) {
+            System.err.println("Erro ao adicionar registro: " + e.getMessage());
+        }
     }
 
     @Override

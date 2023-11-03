@@ -12,15 +12,13 @@ public abstract class Ativo{
 
     protected String codNegociacao; //XXXXY X são letras Y é um número
     private double cotacao;
-    private String liquidacao;
-    private LocalDate dataLiquidacao;
+
     private int lote;
 
-    public Ativo(String codNegociacao, double cotacao, String liquidacao, LocalDate dataLiquidacao, int lote) {
+    public Ativo(String codNegociacao, double cotacao, int lote) {
         this.setCodNegociacao(codNegociacao);
         this.setCotacao(cotacao);
-        this.setLiquidacao(liquidacao);
-        this.setDataLiquidacao(dataLiquidacao);
+
         this.setLote(lote);
     }
 
@@ -47,21 +45,6 @@ public abstract class Ativo{
         this.cotacao = cotacao;
     }
 
-    public String getLiquidacao() {
-        return liquidacao;
-    }
-
-    public void setLiquidacao(String liquidacao) {
-        this.liquidacao = liquidacao;
-    }
-
-    public LocalDate getDataLiquidacao() {
-        return dataLiquidacao;
-    }
-
-    public void setDataLiquidacao(LocalDate dataLiquidacao) {
-        this.dataLiquidacao = dataLiquidacao;
-    }
 
     public int getLote() {
         return lote;

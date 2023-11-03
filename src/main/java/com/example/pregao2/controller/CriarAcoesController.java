@@ -58,8 +58,6 @@ public class CriarAcoesController {
 
     public void setComboBoxTipo() {
         comboBoxTipo.getItems().addAll("FII", "PREFERENCIAL", "ORDINÁRIA");
-
-
     }
 
     @FXML
@@ -75,7 +73,7 @@ public class CriarAcoesController {
 
         if (Objects.equals(tipoAcao, "FII")) {
             try {
-                Fii ativo = new Fii(ticket, numeroAleatorio, "lepo",dataDeHoje , loteQuantidade);
+                Fii ativo = new Fii(ticket, numeroAleatorio, loteQuantidade);
                 System.out.println(ativo.getCodNegociacao());
                 System.out.println(ativo.getCotacao());
                 ativo.insert(ativo);
@@ -86,9 +84,11 @@ public class CriarAcoesController {
         }
         else if (Objects.equals(tipoAcao, "ORDINÁRIA")) {
             try {
-                Ordinaria ativo = new Ordinaria(ticket, numeroAleatorio, "lepo",dataDeHoje , loteQuantidade);
+                Ordinaria ativo = new Ordinaria(ticket, numeroAleatorio , loteQuantidade);
                 System.out.println(ativo);
                 System.out.println(ativo.getCodNegociacao());
+                ativo.insert(ativo);
+
 
             } catch (RuntimeException e) {
                 System.err.println("ERRO " + e);
@@ -96,9 +96,11 @@ public class CriarAcoesController {
         }
         else if (Objects.equals(tipoAcao, "PREFERENCIAL")) {
             try {
-                Preferencial ativo = new Preferencial(ticket, numeroAleatorio, "lepo", dataDeHoje, loteQuantidade);
+                Preferencial ativo = new Preferencial(ticket, numeroAleatorio, loteQuantidade);
                 System.out.println(ativo);
                 System.out.println(ativo.getCodNegociacao());
+                ativo.insert(ativo);
+
 
             } catch (RuntimeException e) {
                 System.err.println("ERRO " + e);

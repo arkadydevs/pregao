@@ -24,15 +24,33 @@
                      </font>
                   </Label>
                   <Label fx:id="saldoUserLabel" alignment="CENTER" prefHeight="17.0" prefWidth="189.0" text="Label" />
+                  <HBox alignment="CENTER" prefHeight="166.0" prefWidth="316.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Button fx:id="historicoMenuBotao" mnemonicParsing="false" onAction="#OnActionHistoricoMenuBotao" text="HISTÓRICO" />
+                              <Button fx:id="carteirasMenuBotao" mnemonicParsing="false" onAction="#OnAcitonCarteirasMenuBotao" text="CARTEIRAS" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Button fx:id="altaBotao" mnemonicParsing="false" onAction="#OnActionAltaBotao" prefHeight="25.0" prefWidth="76.0" text="EM ALTA!" />
+                              <Button fx:id="negociarMenuBotao" mnemonicParsing="false" onAction="#OnActionNegociarMenuBotao" prefHeight="25.0" prefWidth="79.0" text="NEGOCIAR" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <VBox prefHeight="800.0" prefWidth="764.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="101.0" prefWidth="623.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="84.0" text="AÇÃO:" />
-                        <ComboBox fx:id="comboBoxAcoes" prefWidth="150.0" />
-                        <Label fx:id="precoAtualLabel" alignment="CENTER" prefHeight="29.0" prefWidth="111.0" text="Label">
+                        <ComboBox fx:id="comboBoxAcoesTipo" prefWidth="150.0" promptText="Tipo da Ação" />
+                        <Button fx:id="tipoAcaoBotao" mnemonicParsing="false" onAction="#OnActiontTipoAcaoBotao" text="ESCOLHER!" />
+                        <ComboBox fx:id="comboBoxAcoes" prefWidth="150.0" promptText="Ticket da Ação" />
+                        <Button fx:id="procurarAcaoBotao" mnemonicParsing="false" onAction="#OnActionProcurarAcaoBotao" text="PROCURAR!" />
+                        <Label fx:id="precoAtualLabel" alignment="CENTER" prefHeight="23.0" prefWidth="182.0">
                            <font>
                               <Font size="27.0" />
                            </font>
@@ -41,7 +59,7 @@
                   </VBox>
                   <HBox alignment="CENTER" prefHeight="311.0" prefWidth="684.0">
                      <children>
-                        <LineChart prefHeight="344.0" prefWidth="521.0">
+                        <LineChart prefHeight="315.0" prefWidth="521.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>

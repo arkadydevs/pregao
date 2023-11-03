@@ -103,7 +103,7 @@ public class InvestidorFisico extends Investidor{
         }
     }
 
-    public String buscarSaldo(String cpf) {
+    public void buscarSaldo(String cpf) {
         String caminhoArquivo = "src\\main\\java\\bancos_de_dados\\investidorfisico.txt";
         ObjectSaveManager obj = new ObjectSaveManager();
 
@@ -129,8 +129,6 @@ public class InvestidorFisico extends Investidor{
         } catch (IOException e) {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
-
-        return null;
     }
 
 
