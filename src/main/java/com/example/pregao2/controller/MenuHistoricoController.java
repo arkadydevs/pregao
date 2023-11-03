@@ -4,7 +4,7 @@ import com.example.pregao2.MainApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import model.ObjectSaveManager;
+import com.example.pregao2.model.ObjectSaveManager;
 
 public class MenuHistoricoController {
 

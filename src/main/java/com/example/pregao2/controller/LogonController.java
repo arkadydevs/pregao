@@ -4,8 +4,8 @@ import br.com.caelum.stella.validation.CPFValidator;
 import br.com.caelum.stella.validation.InvalidStateException;
 
 import com.example.pregao2.MainApp;
-import entidades.investidores.InvestidorFisico;
-import entidades.investidores.InvestidorJuridico;
+import com.example.pregao2.entidades.investidores.InvestidorFisico;
+import com.example.pregao2.entidades.investidores.InvestidorJuridico;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -54,6 +54,7 @@ public class LogonController {
     public void checkBoxFisicoTrue(ActionEvent event) {
         if (checkBoxFisico.isSelected()) {
             checkBoxJuridico.setSelected(false);
+            nomeTextField.setPromptText("Nome de Usuário");
             cnpjTextField.setPromptText("CPF");
         }
     }
@@ -62,6 +63,7 @@ public class LogonController {
     public void checkBoxJuridicoTrue(ActionEvent event) {
         if (checkBoxJuridico.isSelected()) {
             checkBoxFisico.setSelected(false);
+            nomeTextField.setPromptText("Nome da Empresa");
             cnpjTextField.setPromptText("CNPJ");
 
         }
@@ -117,6 +119,7 @@ public class LogonController {
             }
         } else {
             if (checkBoxFisico.isSelected()) {
+
                 InvestidorFisico investidor = new InvestidorFisico();
                 if ((Objects.equals(cnpjTextField.getText(), "")) || (Objects.equals(senhaTextField.getText(), "")) || (Objects.equals(saldoTextField.getText(), "")) || (Objects.equals(nomeTextField.getText(), ""))) {
                     errorTextLabel.setText("PREENCHER TODOS OS CAMPOS");

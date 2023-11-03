@@ -1,16 +1,12 @@
 package com.example.pregao2.controller;
 
-import entidades.ativos.Fii;
-import entidades.ativos.Ordinaria;
-import entidades.ativos.Preferencial;
-import estruturas_de_dados.lista.ListaEncadeada;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.example.pregao2.entidades.ativos.Fii;
+import com.example.pregao2.entidades.ativos.Ordinaria;
+import com.example.pregao2.entidades.ativos.Preferencial;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import model.ObjectSaveManager;
+import com.example.pregao2.model.ObjectSaveManager;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -60,6 +56,7 @@ public class CriarAcoesController {
         comboBoxTipo.getItems().addAll("FII", "PREFERENCIAL", "ORDINÁRIA");
     }
 
+
     @FXML
     public void onActionBotaoCriar(ActionEvent event){
         String tipoAcao = comboBoxTipo.getValue();
@@ -69,11 +66,14 @@ public class CriarAcoesController {
         double numeroAleatorio = random.nextDouble() * 150;
         numeroAleatorio = Math.round(numeroAleatorio * 100.0) / 100.0;
         LocalDate dataDeHoje = LocalDate.now();
-
+        ObjectSaveManager obj = new ObjectSaveManager();
+        String nome = (String) obj.getObject("NOME");
 
         if (Objects.equals(tipoAcao, "FII")) {
             try {
-                Fii ativo = new Fii(ticket, numeroAleatorio, loteQuantidade);
+
+
+                Fii ativo = new Fii(nome, ticket, numeroAleatorio, loteQuantidade);
                 System.out.println(ativo.getCodNegociacao());
                 System.out.println(ativo.getCotacao());
                 ativo.insert(ativo);
@@ -84,7 +84,7 @@ public class CriarAcoesController {
         }
         else if (Objects.equals(tipoAcao, "ORDINÁRIA")) {
             try {
-                Ordinaria ativo = new Ordinaria(ticket, numeroAleatorio , loteQuantidade);
+                Ordinaria ativo = new Ordinaria(nome, ticket, numeroAleatorio , loteQuantidade);
                 System.out.println(ativo);
                 System.out.println(ativo.getCodNegociacao());
                 ativo.insert(ativo);
@@ -96,7 +96,7 @@ public class CriarAcoesController {
         }
         else if (Objects.equals(tipoAcao, "PREFERENCIAL")) {
             try {
-                Preferencial ativo = new Preferencial(ticket, numeroAleatorio, loteQuantidade);
+                Preferencial ativo = new Preferencial(nome, ticket, numeroAleatorio, loteQuantidade);
                 System.out.println(ativo);
                 System.out.println(ativo.getCodNegociacao());
                 ativo.insert(ativo);

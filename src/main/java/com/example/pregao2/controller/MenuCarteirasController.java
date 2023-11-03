@@ -1,12 +1,10 @@
 package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import model.ObjectSaveManager;
+import com.example.pregao2.model.ObjectSaveManager;
 
 public class MenuCarteirasController {
 

@@ -2,16 +2,13 @@ package com.example.pregao2.controller;
 
 
 import com.example.pregao2.MainApp;
-import entidades.investidores.InvestidorFisico;
-import entidades.investidores.InvestidorJuridico;
+import com.example.pregao2.entidades.investidores.InvestidorFisico;
+import com.example.pregao2.entidades.investidores.InvestidorJuridico;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import model.ObjectSaveManager;
 
 import java.io.IOException;
 
@@ -80,6 +77,7 @@ public class LoginController {
             }
         }
         else if(checkBoxFisico.isSelected()){
+
             try {
                 InvestidorFisico investidorFisico = new InvestidorFisico();
                 investidorFisico.setCpf(userTextField.getText());

@@ -7,11 +7,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainApp extends Application {
-    public static Stage primaryStage; // Define the primaryStage as a static variable
+    public static Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws IOException {
-        primaryStage = stage; // Set the primaryStage
+        primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/pregaoInicialScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);

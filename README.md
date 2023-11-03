@@ -6,7 +6,7 @@
 ## <center> <span style="color: pink;"> Pregão Bolsa de Valores </span> </center>
 
 <center> <img src="https://i.imgur.com/JmoinSk.jpeg" width="250" height="300"> </center>
-<center><strong>Logo do projeto<strong></center>
+<center><strong>Logo do projeto<strong> </strong> </center>
 
 
 ### <center> <span style="color: pink;"> Pregão feito para avalição da disciplina de LG2.</span> </center>
