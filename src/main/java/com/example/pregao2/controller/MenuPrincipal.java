@@ -2,6 +2,7 @@ package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
 import com.example.pregao2.entidades.Historico;
+import com.example.pregao2.estruturas_de_dados.lista.ListaEncadeada;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,14 +10,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import com.example.pregao2.model.ObjectSaveManager;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.Objects;
+
 
 public class MenuPrincipal{
     @FXML
@@ -57,6 +54,7 @@ public class MenuPrincipal{
     private int quantidade;
     private String acaoPreco = "";
     private String ticketNome = "";
+    private String tipoObj = "";
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
     ObjectSaveManager obj = new ObjectSaveManager();
     LocalDateTime tempo = LocalDateTime.now();
@@ -74,6 +72,9 @@ public class MenuPrincipal{
     public void userInfo(){
         nome = (String) obj.getObject("NOME");
         id = (String) obj.getObject("ID");
+        tipoObj = (String) obj.getObject("TIPO");
+
+
         String saldoStr = (String) obj.getObject("SALDO");
         try {
             saldo = Double.parseDouble(saldoStr);
@@ -87,7 +88,7 @@ public class MenuPrincipal{
 
     public void spinnerQuantidade() {
         SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                0, 20, 0);
+                1, 20, 0);
         quantidadeSpinner.setValueFactory(valueFactory);
 
         quantidadeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -102,6 +103,7 @@ public class MenuPrincipal{
 
     @FXML
     public void OnActiontTipoAcaoBotao(ActionEvent event) {
+        errorLabel.setText("");
         String tipoCaminho = (String) comboBoxAcoesTipo.getValue();
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
         ObservableList<String> listaTicket = FXCollections.observableArrayList();
@@ -110,8 +112,8 @@ public class MenuPrincipal{
             String linha;
             while ((linha = bufferedReader.readLine()) != null) {
                 String[] partes = linha.split(" ");
-                if (partes.length >= 1) {
-                    String ticket = partes[0];
+                if (partes.length >= 2) {
+                    String ticket = partes[1];
                     if (ticket.matches("[A-Z]+\\d+[A-Z]*")) {
                         System.out.println(ticket);
                         listaTicket.add(ticket);
@@ -126,6 +128,8 @@ public class MenuPrincipal{
 
     @FXML
     public void OnActionProcurarAcaoBotao(ActionEvent event){
+        errorLabel.setText("");
+
         String acaoEscolhida = (String) comboBoxAcoes.getValue();
         String tipoCaminho = (String) comboBoxAcoesTipo.getValue();
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
@@ -134,10 +138,9 @@ public class MenuPrincipal{
 
             while ((linha = bufferedReader.readLine()) != null) {
                 String[] partes = linha.split(" ");
-                if (Objects.equals(partes[1], acaoEscolhida)) {
+                if (partes.length >= 2 && Objects.equals(partes[1], acaoEscolhida)) {
                     acaoPreco = partes[2];
                     spinnerQuantidade();
-
                 }
             }
             ticketNome = (String) comboBoxAcoes.getValue();
@@ -149,29 +152,96 @@ public class MenuPrincipal{
     }
     @FXML
     public void OnActionBotaoConfirmarCompra(){
+        errorLabel.setText("");
         String quantidadePreco = quantidadePrecoLabel.getText();
         String[] precoFinalArray = quantidadePreco.split(": ");
         double precoFinal = Double.parseDouble(precoFinalArray[1]);
         if(precoFinal > saldo){
             errorLabel.setText("SALDO INSUFICIENTE");
         }else{
-            saldo = saldo - precoFinal;
-            saldoUserLabel.setText(String.valueOf(saldo));
-            int idInt = Integer.parseInt(id);
-            Historico compra = new Historico(idInt, nome, null, ticketNome, Double.parseDouble(acaoPreco), precoFinal, quantidade,tempo);
-            System.out.println(compra.toString());
 
+            saldo = saldo - precoFinal;
+            atualizarSaldo(saldo);
+            Historico compra = new Historico();
+            String empresaTicket = buscarEmpresaPeloTicket(ticketNome, (String) comboBoxAcoesTipo.getValue());
+
+            compra.setComprador(nome);
+            compra.setEmpresa(empresaTicket);
+            compra.setTicket(ticketNome);
+            compra.setPrecoUnitario( Double.parseDouble(acaoPreco));
+            compra.setPrecoTotal(precoFinal);
+            compra.setUnidadesCompradas(quantidade);
+            compra.setData(tempo);
+            compra.insert(compra);
+            System.out.println(compra.toString());
+            errorLabel.setText("AÇÕES COMPRADAS! SALDO ATUAL: " + saldo);
+            errorLabel.setStyle("-fx-text-fill: green;");
         }
     }
 
+    public String buscarEmpresaPeloTicket(String ticket, String tipoCaminho) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 2) {
+                    String codNegociacao = partes[1];
+                    String empresa = partes[0];
+                    if (ticket.equals(codNegociacao)) {
+                        return empresa;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public void atualizarSaldo(double novoSaldo) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/" + tipoObj + ".txt";
+        ListaEncadeada<String> linhas = new ListaEncadeada<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 5 && partes[0].equals(id)) {
+                    String novoSaldoStr = String.valueOf(novoSaldo);
+                    partes[2] = (novoSaldoStr);
+                    linha = String.join(" ", partes);
+                    saldoUserLabel.setText(novoSaldoStr);
+                }
+                linhas.addElemento(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (int i = 0; i < linhas.getTamanho(); i++) {
+                String linha = String.valueOf(linhas.get(i));
+                printWriter.println(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+        }
+    }
+
+
+
+
     @FXML
-    public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/menuHistorico.fxml");}
+    public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/fxml/menuHistorico.fxml");}
     @FXML
-    public void OnAcitonCarteirasMenuBotao(){sceneSwitcher.switchScene("/menuCarteiras.fxml");}
+    public void OnAcitonCarteirasMenuBotao(){sceneSwitcher.switchScene("/fxml/menuCarteiras.fxml");}
     @FXML
-    public void OnActionAltaBotao(){sceneSwitcher.switchScene("/menuEmAlta.fxml");}
+    public void OnActionAltaBotao(){sceneSwitcher.switchScene("/fxml/menuEmAlta.fxml");}
     @FXML
-    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/menuPrincipal.fxml");}
+    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");}
 }
 
 

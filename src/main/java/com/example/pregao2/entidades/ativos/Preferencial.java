@@ -1,10 +1,12 @@
 package com.example.pregao2.entidades.ativos;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Preferencial extends Ativo {
+
+    public Preferencial(){
+
+    }
 
     public Preferencial(String empresa, String codNegociacao, double cotacao, int lote) {
         super(empresa, codNegociacao, cotacao, lote);
@@ -23,6 +25,8 @@ public class Preferencial extends Ativo {
             System.err.println("Erro ao adicionar registro: " + e.getMessage());
         }
     }
+
+
 
 
     @Override

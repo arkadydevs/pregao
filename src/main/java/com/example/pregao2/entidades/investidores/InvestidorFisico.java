@@ -91,7 +91,7 @@ public class InvestidorFisico extends Investidor{
                     if (cpf.equals(cpfLido) && senha.equals(senhaLida)) {
                         SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
                         System.out.println("Botão InitialButton clicado");
-                        sceneSwitcher.switchScene("/menuPrincipal.fxml");
+                        sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");
                         return;
                     }
                 }
@@ -117,8 +117,10 @@ public class InvestidorFisico extends Investidor{
                     String cpfLido = partes[3];
 
                     if (cpf.equals(cpfLido)) {
+                        String tipoObj = "investidorfisico";
                         obj.cleanObjects();
                         obj.saveObject("ID", id);
+                        obj.saveObject("TIPO", tipoObj);
                         obj.saveObject("CNPJ", cpfLido);
                         obj.saveObject("NOME", nome);
                         obj.saveObject("SALDO", saldoStr);
@@ -130,6 +132,26 @@ public class InvestidorFisico extends Investidor{
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
     }
+
+    /*public void alterarSaldoNoArquivo(String nome, double novoSaldo) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/investidorfisico.txt";
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 4) {
+                    String nomeLido = partes[1];
+                    if (nome.equals(nomeLido)) {
+                        partes[2] = String.valueOf(novoSaldo);
+                    }
+                }
+                linhas.add(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+    }*/
 
 
 }

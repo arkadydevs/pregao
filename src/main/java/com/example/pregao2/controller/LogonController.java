@@ -83,6 +83,7 @@ public class LogonController {
                 CNPJValidator validator = new CNPJValidator();
                 investidor.setNome(nomeTextField.getText());
 
+
                 try {
                     errorTextLabel.setText("");
                     validator.assertValid(cnpjTextField.getText());
@@ -111,8 +112,8 @@ public class LogonController {
                 if (teste == 3) {
                     investidor.insert(investidor);
                     System.out.println("Botão InitialButton clicado");
-                    sceneSwitcher.switchScene("/menuPrincipal.fxml");
-                    sceneSwitcher.switchScene("/pregaoInicialScreen.fxml");
+                    sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");
+                    sceneSwitcher.switchScene("/fxml/pregaoInicialScreen.fxml");
 
 
                 }
@@ -157,7 +158,7 @@ public class LogonController {
                     if (teste == 3) {
                         investidor.insert(investidor);
                         System.out.println("Botão InitialButton clicado");
-                        sceneSwitcher.switchScene("/pregaoInicialScreen.fxml");
+                        sceneSwitcher.switchScene("/fxml/pregaoInicialScreen.fxml");
                     }
                 }
             }

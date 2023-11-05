@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -25,13 +28,45 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="historicoMenuBotao" mnemonicParsing="false" onAction="#OnActionHistoricoMenuBotao" text="HISTÓRICO" />
+                              <ImageView fitHeight="42.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imagens/historico.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </ImageView>
+                              <Button fx:id="historicoMenuBotao" mnemonicParsing="false" onAction="#OnActionHistoricoMenuBotao" text="HISTÓRICO">
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin></Button>
+                              <ImageView fitHeight="42.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imagens/carteira.png" />
+                                 </image>
+                              </ImageView>
                               <Button fx:id="carteirasMenuBotao" mnemonicParsing="false" onAction="#OnAcitonCarteirasMenuBotao" text="CARTEIRAS" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                            <children>
-                              <Button fx:id="altaBotao" mnemonicParsing="false" onAction="#OnActionAltaBotao" prefHeight="25.0" prefWidth="76.0" text="EM ALTA!" />
+                              <ImageView fitHeight="42.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imagens/emAlta.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </ImageView>
+                              <Button fx:id="altaBotao" mnemonicParsing="false" onAction="#OnActionAltaBotao" prefHeight="25.0" prefWidth="76.0" text="EM ALTA!">
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin></Button>
+                              <ImageView fitHeight="42.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imagens/negociar.png" />
+                                 </image>
+                              </ImageView>
                               <Button fx:id="negociarMenuBotao" mnemonicParsing="false" onAction="#OnActionNegociarMenuBotao" prefHeight="25.0" prefWidth="79.0" text="NEGOCIAR" />
                            </children>
                         </VBox>

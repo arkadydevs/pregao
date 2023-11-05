@@ -1,5 +1,6 @@
 package com.example.pregao2.controller;
 
+import com.example.pregao2.MainApp;
 import com.example.pregao2.entidades.ativos.Fii;
 import com.example.pregao2.entidades.ativos.Ordinaria;
 import com.example.pregao2.entidades.ativos.Preferencial;
@@ -16,6 +17,8 @@ public class CriarAcoesController {
 
     @FXML
     private Button botaoCriar;
+    @FXML
+    private Button voltarMenuEscolha;
     @FXML
     private Label acoeSaidaExemplo;
 
@@ -36,8 +39,11 @@ public class CriarAcoesController {
 
     @FXML
     private TextField textFieldNome4;
+    String nome;
     @FXML
     private Spinner<Integer> spinnerLote;
+    ObjectSaveManager obj = new ObjectSaveManager();
+
 
     @FXML
     public void initialize() {
@@ -66,16 +72,13 @@ public class CriarAcoesController {
         double numeroAleatorio = random.nextDouble() * 150;
         numeroAleatorio = Math.round(numeroAleatorio * 100.0) / 100.0;
         LocalDate dataDeHoje = LocalDate.now();
-        ObjectSaveManager obj = new ObjectSaveManager();
-        String nome = (String) obj.getObject("NOME");
 
         if (Objects.equals(tipoAcao, "FII")) {
             try {
 
-
                 Fii ativo = new Fii(nome, ticket, numeroAleatorio, loteQuantidade);
-                System.out.println(ativo.getCodNegociacao());
-                System.out.println(ativo.getCotacao());
+                System.out.println(ativo.toString());
+
                 ativo.insert(ativo);
 
             } catch (RuntimeException e) {
@@ -84,9 +87,10 @@ public class CriarAcoesController {
         }
         else if (Objects.equals(tipoAcao, "ORDINÁRIA")) {
             try {
+
                 Ordinaria ativo = new Ordinaria(nome, ticket, numeroAleatorio , loteQuantidade);
-                System.out.println(ativo);
-                System.out.println(ativo.getCodNegociacao());
+                System.out.println(ativo.toString());
+
                 ativo.insert(ativo);
 
 
@@ -96,9 +100,10 @@ public class CriarAcoesController {
         }
         else if (Objects.equals(tipoAcao, "PREFERENCIAL")) {
             try {
+
                 Preferencial ativo = new Preferencial(nome, ticket, numeroAleatorio, loteQuantidade);
-                System.out.println(ativo);
-                System.out.println(ativo.getCodNegociacao());
+                System.out.println(ativo.toString());
+
                 ativo.insert(ativo);
 
 
@@ -106,6 +111,12 @@ public class CriarAcoesController {
                 System.err.println("ERRO " + e);
             }
         }
+    }
+
+    @FXML
+    public void OnActionVoltarMenuEscolha(){
+        SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
+        sceneSwitcher.switchScene("/fxml/escolhaJuridico.fxml");
     }
 
     public void setTextFieldNomes(){
@@ -144,7 +155,7 @@ public class CriarAcoesController {
     }
     public void setNome(){
         ObjectSaveManager obj = new ObjectSaveManager();
-        String nome = (String) obj.getObject("NOME");
+        nome = (String) obj.getObject("NOME");
         nomeUserLabel.setText("Empresa: " + nome);
     }
     public void setSpinnerLote(){

@@ -79,7 +79,7 @@ public class InvestidorJuridico extends Investidor implements Serializable{
                     if (cnpj.equals(cnpjLido) && senha.equals(senhaLida)) {
                         SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
                         System.out.println("Botão InitialButton clicado");
-                        sceneSwitcher.switchScene("/escolhaJuridico.fxml");
+                        sceneSwitcher.switchScene("/fxml/escolhaJuridico.fxml");
                         return;
                     }
                 }
@@ -105,8 +105,10 @@ public class InvestidorJuridico extends Investidor implements Serializable{
                     String cnpjLido = partes[3];
 
                     if (cnpj.equals(cnpjLido)) {
+                        String tipoObj = "investidorjuridico";
                         obj.cleanObjects();
                         obj.saveObject("ID", id);
+                        obj.saveObject("TIPO", tipoObj);
                         obj.saveObject("CNPJ", cnpjLido);
                         obj.saveObject("NOME", nome);
                         obj.saveObject("SALDO", saldoStr);

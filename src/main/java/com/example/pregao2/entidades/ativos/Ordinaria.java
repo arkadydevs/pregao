@@ -1,11 +1,12 @@
 package com.example.pregao2.entidades.ativos;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Ordinaria extends Ativo {
 
+    public Ordinaria(){
+
+    }
 
     public Ordinaria(String empresa, String codNegociacao, double cotacao, int lote) {
         super(empresa, codNegociacao, cotacao, lote);
@@ -35,4 +36,26 @@ public class Ordinaria extends Ativo {
             throw new IllegalArgumentException("Código de negociação inválido");
         }
     }
+
+    public String buscarEmpresaPeloTicket(String ticket) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/ordinaria.txt";
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 2) {
+                    String codNegociacao = partes[1];
+                    String empresa = partes[0];
+                    if (ticket.equals(codNegociacao)) {
+                        return empresa;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+        return null;
+    }
+
 }

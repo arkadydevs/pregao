@@ -4,11 +4,16 @@ package com.example.pregao2.entidades.ativos;
 public abstract class Ativo{
 
     protected String codNegociacao; //XXXXY X são letras Y é um número
-    private double cotacao;
-    private String empresa;
-    private int lote;
+    protected double cotacao;
+    protected String empresa;
+    protected int lote;
+
+    public Ativo(){
+
+    }
 
     public Ativo(String empresa, String codNegociacao, double cotacao, int lote) {
+        this.setEmpresa(empresa);
         this.setCodNegociacao(codNegociacao);
         this.setCotacao(cotacao);
         this.setLote(lote);
@@ -63,6 +68,16 @@ public abstract class Ativo{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Fii{" +
+                "empresa='" + empresa + '\'' +
+                ", codNegociacao='" + codNegociacao + '\'' +
+                ", cotacao=" + cotacao +
+                ", lote=" + lote +
+                '}';
     }
 
 }

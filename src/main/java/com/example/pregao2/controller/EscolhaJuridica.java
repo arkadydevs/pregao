@@ -16,15 +16,13 @@ public class EscolhaJuridica {
     @FXML
     void onActionCriar(ActionEvent event) {
         SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
-        System.out.println("Botão InitialButton clicado");
-        sceneSwitcher.switchScene("/criarAcoes.fxml");
+        sceneSwitcher.switchScene("/fxml/criarAcoes.fxml");
     }
 
     @FXML
     void OnActionVender(ActionEvent event) {
         SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
-        System.out.println("Botão InitialButton clicado");
-        sceneSwitcher.switchScene("/menuPrincipal.fxml");
+        sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");
     }
 
 }

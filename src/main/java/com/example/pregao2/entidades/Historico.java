@@ -1,5 +1,8 @@
 package com.example.pregao2.entidades;
 
+import com.example.pregao2.entidades.ativos.Fii;
+
+import java.io.*;
 import java.time.LocalDateTime;
 
 public class Historico {
@@ -17,6 +20,7 @@ public class Historico {
     }
 
     public Historico(int id,String comprador, String empresa, String ticket, double precoUnitario, double precoTotal, int unidadesCompradas, LocalDateTime data) {
+        this.id = id;
         this.comprador = comprador;
         this.empresa = empresa;
         this.ticket = ticket;
@@ -90,9 +94,44 @@ public class Historico {
         this.data = data;
     }
 
-    public void insert(Historico historico){
 
+
+    public void insert(Historico historico) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/historico.txt";
+        int novoId = obterProximoId(caminhoArquivo);
+
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, true);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+
+            printWriter.println(novoId+ " " + historico.getComprador() + " " + historico.getEmpresa() + " " + historico.getTicket() + " " + historico.getPrecoUnitario() + " " + historico.getPrecoTotal() + " "  + historico.getUnidadesCompradas() + " " + getData());
+
+        } catch (IOException e) {
+            System.err.println("Erro ao adicionar registro: " + e.getMessage());
+        }
     }
+
+    public static int obterProximoId(String caminhoArquivo) {
+        int novoId = 1;
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 1 && !partes[0].isEmpty()) {
+                    int idLido = Integer.parseInt(partes[0]);
+                    if (idLido >= novoId) {
+                        novoId = idLido + 1;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+        return novoId;
+    }
+
 
     @Override
     public String toString() {

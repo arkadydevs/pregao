@@ -22,13 +22,13 @@ public class PregaoInicialScreen {
     @FXML
     public void onActionLogon(ActionEvent event) {
         System.out.println("Botão empresaInitialButton clicado");
-        sceneSwitcher.switchScene("/logonPregao.fxml");
+        sceneSwitcher.switchScene("/fxml/logonPregao.fxml");
     }
 
     @FXML
     public void onActionLogin(ActionEvent event) {
         System.out.println("Botão empresaInitialButton clicado");
-        sceneSwitcher.switchScene("/loginPregao.fxml");
+        sceneSwitcher.switchScene("/fxml/loginPregao.fxml");
     }
 }
 

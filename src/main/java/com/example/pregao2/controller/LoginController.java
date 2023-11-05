@@ -58,7 +58,7 @@ public class LoginController {
     @FXML
     public void OnActionVoltar(ActionEvent event){
         SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
-        sceneSwitcher.switchScene("/pregaoInicialScreen.fxml");
+        sceneSwitcher.switchScene("/fxml/pregaoInicialScreen.fxml");
 
     }
     @FXML

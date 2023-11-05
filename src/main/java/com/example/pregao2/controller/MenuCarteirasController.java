@@ -30,13 +30,13 @@ public class MenuCarteirasController {
     }
 
     @FXML
-    public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/menuHistorico.fxml");}
+    public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/fxml/menuHistorico.fxml");}
     @FXML
-    public void OnAcitonCarteirasMenuBotao(){sceneSwitcher.switchScene("/menuCarteiras.fxml");}
+    public void OnAcitonCarteirasMenuBotao(){sceneSwitcher.switchScene("/fxml/menuCarteiras.fxml");}
     @FXML
-    public void OnActionAltaBotao(){sceneSwitcher.switchScene("/menuEmAlta.fxml");}
+    public void OnActionAltaBotao(){sceneSwitcher.switchScene("/fxml/menuEmAlta.fxml");}
     @FXML
-    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/menuPrincipal.fxml");}
+    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");}
 
     public void userInfo(){
         ObjectSaveManager obj = new ObjectSaveManager();
