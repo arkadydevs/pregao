@@ -1,13 +1,22 @@
 package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
+import com.example.pregao2.entidades.Carteira;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import com.example.pregao2.model.ObjectSaveManager;
+import javafx.scene.control.TextField;
 
 public class MenuCarteirasController {
 
+    @FXML
+    private Button addCarteira;
+    @FXML
+    private TextField addCarteiraTextField;
+    @FXML
+    private Button altaBotao;
     @FXML
     private Button carteirasMenuBotao;
     @FXML
@@ -18,17 +27,26 @@ public class MenuCarteirasController {
     private Label nomeUserLabel;
     @FXML
     private Label saldoUserLabel;
-
     private String nome;
     private double saldo;
+    private String id;
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
 
 
     @FXML
     public void initialize() {
         userInfo();
+
     }
 
+
+    @FXML
+    public void OnActionAddCarteira(ActionEvent event){
+        Carteira carteira = new Carteira();
+        carteira.setIdInvestidor(id);
+        carteira.setNomeCarteira(addCarteiraTextField.getText());
+        carteira.insert(carteira);
+    }
     @FXML
     public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/fxml/menuHistorico.fxml");}
     @FXML
@@ -41,6 +59,7 @@ public class MenuCarteirasController {
     public void userInfo(){
         ObjectSaveManager obj = new ObjectSaveManager();
         nome = (String) obj.getObject("NOME");
+        id = (String) obj.getObject("ID");
         String saldoStr = (String) obj.getObject("SALDO");
         try {
             saldo = Double.parseDouble(saldoStr);

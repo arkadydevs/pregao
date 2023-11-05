@@ -35,7 +35,7 @@ public class InvestidorJuridico extends Investidor implements Serializable{
         try (FileWriter fileWriter = new FileWriter(caminhoArquivo, true);
              PrintWriter printWriter = new PrintWriter(fileWriter)) {
 
-            printWriter.println(novoId + " " + investidor.getNome() + " " + investidor.getSaldo() + " " + investidor.getCnpj() + " " + investidor.getSenha());
+            printWriter.println(novoId+"J" + " " + investidor.getNome() + " " + investidor.getSaldo() + " " + investidor.getCnpj() + " " + investidor.getSenha());
 
         } catch (IOException e) {
             System.err.println("Erro ao adicionar registro: " + e.getMessage());

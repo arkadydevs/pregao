@@ -47,7 +47,7 @@ public class InvestidorFisico extends Investidor{
         try (FileWriter fileWriter = new FileWriter(caminhoArquivo, true);
              PrintWriter printWriter = new PrintWriter(fileWriter)) {
 
-            printWriter.println(novoId + " " + investidor.getNome() + " " + investidor.getSaldo() + " " + investidor.getCpf() + " " + investidor.getSenha());
+            printWriter.println(novoId+"F" + " " + investidor.getNome() + " " + investidor.getSaldo() + " " + investidor.getCpf() + " " + investidor.getSenha());
 
         } catch (IOException e) {
             System.err.println("Erro ao adicionar registro: " + e.getMessage());
@@ -78,7 +78,6 @@ public class InvestidorFisico extends Investidor{
 
     public void loginJuridico(String cpf, String senha) {
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/investidorfisico.txt";
-        InvestidorFisico investidorEncontrado = null;
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
@@ -132,26 +131,6 @@ public class InvestidorFisico extends Investidor{
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
     }
-
-    /*public void alterarSaldoNoArquivo(String nome, double novoSaldo) {
-        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/investidorfisico.txt";
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
-            String linha;
-            while ((linha = bufferedReader.readLine()) != null) {
-                String[] partes = linha.split(" ");
-                if (partes.length >= 4) {
-                    String nomeLido = partes[1];
-                    if (nome.equals(nomeLido)) {
-                        partes[2] = String.valueOf(novoSaldo);
-                    }
-                }
-                linhas.add(linha);
-            }
-        } catch (IOException e) {
-            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
-        }
-    }*/
 
 
 }

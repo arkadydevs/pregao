@@ -35,6 +35,8 @@ public class MenuPrincipal{
     @FXML
     private ComboBox comboBoxAcoesTipo;
     @FXML
+    private ComboBox comboBoxCarteiras;
+    @FXML
     private Button botaoConfirmarCompra;
     @FXML
     private Button tipoAcaoBotao;
@@ -55,6 +57,7 @@ public class MenuPrincipal{
     private String acaoPreco = "";
     private String ticketNome = "";
     private String tipoObj = "";
+    private String idCarteiraGlobal;
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
     ObjectSaveManager obj = new ObjectSaveManager();
     LocalDateTime tempo = LocalDateTime.now();
@@ -67,6 +70,7 @@ public class MenuPrincipal{
         ObservableList<String> tipos = FXCollections.observableArrayList("fii", "preferencial", "ordinaria");
         comboBoxAcoesTipo.setItems(tipos);
         userInfo();
+        setComboxCarteiras(id);
     }
 
     public void userInfo(){
@@ -165,6 +169,7 @@ public class MenuPrincipal{
             Historico compra = new Historico();
             String empresaTicket = buscarEmpresaPeloTicket(ticketNome, (String) comboBoxAcoesTipo.getValue());
 
+            compra.setIdCarteira(idCarteiraGlobal);
             compra.setComprador(nome);
             compra.setEmpresa(empresaTicket);
             compra.setTicket(ticketNome);
@@ -231,7 +236,29 @@ public class MenuPrincipal{
         }
     }
 
+    public void setComboxCarteiras(String id){
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/carteira.txt";
+        ObservableList<String> listaCarteiras = FXCollections.observableArrayList();
 
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 2) {
+                    String idInvestidor = partes[1];
+                    if (id.equals(idInvestidor)) {
+                        idCarteiraGlobal = partes[0];
+                        System.out.println(idInvestidor);
+                        listaCarteiras.add(partes[2]);
+                    }
+                }
+            }
+            comboBoxCarteiras.setItems(listaCarteiras);
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+    }
 
 
     @FXML

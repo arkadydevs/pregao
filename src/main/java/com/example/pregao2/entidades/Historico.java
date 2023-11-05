@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class Historico {
 
     private int id;
+    private String idCarteira;
     private String comprador;
     private String empresa;
     private String ticket;
@@ -19,8 +20,9 @@ public class Historico {
     public Historico() {
     }
 
-    public Historico(int id,String comprador, String empresa, String ticket, double precoUnitario, double precoTotal, int unidadesCompradas, LocalDateTime data) {
+    public Historico(int id, String idCarteira,String comprador, String empresa, String ticket, double precoUnitario, double precoTotal, int unidadesCompradas, LocalDateTime data) {
         this.id = id;
+        this.idCarteira = idCarteira;
         this.comprador = comprador;
         this.empresa = empresa;
         this.ticket = ticket;
@@ -36,6 +38,14 @@ public class Historico {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getIdCarteira() {
+        return idCarteira;
+    }
+
+    public void setIdCarteira(String idCarteira) {
+        this.idCarteira = idCarteira;
     }
 
     public String getComprador() {
@@ -104,7 +114,7 @@ public class Historico {
         try (FileWriter fileWriter = new FileWriter(caminhoArquivo, true);
              PrintWriter printWriter = new PrintWriter(fileWriter)) {
 
-            printWriter.println(novoId+ " " + historico.getComprador() + " " + historico.getEmpresa() + " " + historico.getTicket() + " " + historico.getPrecoUnitario() + " " + historico.getPrecoTotal() + " "  + historico.getUnidadesCompradas() + " " + getData());
+            printWriter.println(novoId+ " "+ historico.getIdCarteira() +" " + historico.getComprador() + " " + historico.getEmpresa() + " " + historico.getTicket() + " " + historico.getPrecoUnitario() + " " + historico.getPrecoTotal() + " "  + historico.getUnidadesCompradas() + " " + getData());
 
         } catch (IOException e) {
             System.err.println("Erro ao adicionar registro: " + e.getMessage());
@@ -138,6 +148,7 @@ public class Historico {
         return "Historico{" +
                 "id='" + id+ '\''+
                 ",comprador='" + comprador + '\'' +
+                ",idCarteira='" + idCarteira + '\'' +
                 ", empresa='" + empresa + '\'' +
                 ", ticket='" + ticket + '\'' +
                 ", precoUnitario=" + precoUnitario +

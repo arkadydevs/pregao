@@ -115,12 +115,16 @@
                            <children>
                               <Label fx:id="errorLabel" alignment="CENTER" prefHeight="51.0" prefWidth="289.0" textFill="RED">
                                  <font>
-                                    <Font name="System Bold" size="20.0" />
+                                    <Font name="System Bold" size="11.0" />
                                  </font>
                               </Label>
+                              <ComboBox fx:id="comboBoxCarteiras" prefWidth="150.0" promptText="Carteira" />
                               <Spinner fx:id="quantidadeSpinner" />
                               <Label fx:id="quantidadePrecoLabel" alignment="CENTER" prefHeight="17.0" prefWidth="118.0" />
-                              <Button fx:id="botaoConfirmarCompra" mnemonicParsing="false" onAction="#OnActionBotaoConfirmarCompra" text="Button" />
+                              <Button fx:id="botaoConfirmarCompra" mnemonicParsing="false" onAction="#OnActionBotaoConfirmarCompra" text="COMPRAR!" textFill="#02a137">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Button>
                            </children>
                         </VBox>
                      </children>
