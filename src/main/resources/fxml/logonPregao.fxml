@@ -56,7 +56,7 @@
                                     <Insets bottom="20.0" />
                                  </VBox.margin>
                               </TextField>
-                              <TextField fx:id="cnpjTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="270.0" promptText="CPF ou CNPJ">
+                              <TextField fx:id="identificadorTextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="26.0" prefWidth="270.0" promptText="CPF ou CNPJ">
                                  <VBox.margin>
                                     <Insets bottom="20.0" />
                                  </VBox.margin>

@@ -17,6 +17,7 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.setTitle("Pregão ");
         stage.sizeToScene();
+        stage.resizableProperty().setValue(false);
         stage.show();
 
     }

@@ -10,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Objects;
 
 public class LogonController {
@@ -20,10 +23,11 @@ public class LogonController {
     private CheckBox checkBoxJuridico;
     @FXML
     private Button logonButton;
+
     @FXML
     private Label errorTextLabel;
     @FXML
-    private TextField cnpjTextField;
+    private TextField identificadorTextField;
     @FXML
     private TextField nomeTextField;
     @FXML
@@ -55,7 +59,7 @@ public class LogonController {
         if (checkBoxFisico.isSelected()) {
             checkBoxJuridico.setSelected(false);
             nomeTextField.setPromptText("Nome de Usuário");
-            cnpjTextField.setPromptText("CPF");
+            identificadorTextField.setPromptText("CPF");
         }
     }
 
@@ -64,7 +68,7 @@ public class LogonController {
         if (checkBoxJuridico.isSelected()) {
             checkBoxFisico.setSelected(false);
             nomeTextField.setPromptText("Nome da Empresa");
-            cnpjTextField.setPromptText("CNPJ");
+            identificadorTextField.setPromptText("CNPJ");
 
         }
     }
@@ -75,7 +79,7 @@ public class LogonController {
 
         if (checkBoxJuridico.isSelected()) {
             InvestidorJuridico investidor = new InvestidorJuridico();
-            if ((Objects.equals(cnpjTextField.getText(), "")) || (Objects.equals(senhaTextField.getText(), "")) || (Objects.equals(saldoTextField.getText(), "")) || (Objects.equals(nomeTextField.getText(), ""))) {
+            if ((Objects.equals(identificadorTextField.getText(), "")) || (Objects.equals(senhaTextField.getText(), "")) || (Objects.equals(saldoTextField.getText(), "")) || (Objects.equals(nomeTextField.getText(), ""))) {
                 errorTextLabel.setText("PREENCHER TODOS OS CAMPOS");
             } else {
                 int teste = 0;
@@ -86,13 +90,13 @@ public class LogonController {
 
                 try {
                     errorTextLabel.setText("");
-                    validator.assertValid(cnpjTextField.getText());
-                    investidor.setCnpj(cnpjTextField.getText());
+                    validator.assertValid(identificadorTextField.getText());
+                    investidor.setCnpj(identificadorTextField.getText());
                     teste++;
                 } catch (InvalidStateException e) {
                     errorTextLabel.setText("CNPJ INVÁLIDO");
                 }
-
+                validarNomeIdentificador(nomeTextField.getText(), identificadorTextField.getText(), "investidorjuridico");
                 try {
                     investidor.setSenha(senhaTextField.getText());
                     teste++;
@@ -112,7 +116,7 @@ public class LogonController {
                 if (teste == 3) {
                     investidor.insert(investidor);
                     System.out.println("Botão InitialButton clicado");
-                    sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");
+                    sceneSwitcher.switchScene("/fxml/menuNegociar.fxml");
                     sceneSwitcher.switchScene("/fxml/pregaoInicialScreen.fxml");
 
 
@@ -122,7 +126,7 @@ public class LogonController {
             if (checkBoxFisico.isSelected()) {
 
                 InvestidorFisico investidor = new InvestidorFisico();
-                if ((Objects.equals(cnpjTextField.getText(), "")) || (Objects.equals(senhaTextField.getText(), "")) || (Objects.equals(saldoTextField.getText(), "")) || (Objects.equals(nomeTextField.getText(), ""))) {
+                if ((Objects.equals(identificadorTextField.getText(), "")) || (Objects.equals(senhaTextField.getText(), "")) || (Objects.equals(saldoTextField.getText(), "")) || (Objects.equals(nomeTextField.getText(), ""))) {
                     errorTextLabel.setText("PREENCHER TODOS OS CAMPOS");
                 } else {
                     int teste = 0;
@@ -132,12 +136,13 @@ public class LogonController {
 
                     try {
                         errorTextLabel.setText("");
-                        validator.assertValid(cnpjTextField.getText());
-                        investidor.setCpf(cnpjTextField.getText());
+                        validator.assertValid(identificadorTextField.getText());
+                        investidor.setCpf(identificadorTextField.getText());
                         teste++;
                     } catch (InvalidStateException e) {
                         errorTextLabel.setText("CPF INVÁLIDO");
                     }
+                    validarNomeIdentificador(nomeTextField.getText(), identificadorTextField.getText(), "investidorfisico");
 
                     try {
                         investidor.setSenha(senhaTextField.getText());
@@ -162,6 +167,34 @@ public class LogonController {
                     }
                 }
             }
+        }
+    }
+
+    public void validarNomeIdentificador(String nome, String identificador, String tipoCaminho) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 4) {
+                    String identificadorLido = partes[3];
+                    String nomeLido = partes[1];
+
+                    if (nome.equals(nomeLido)) {
+                        errorTextLabel.setText("NOME DE USUÁRIO JÁ CADASTRADO");
+                        throw new RuntimeException("NOME DE USUÁRIO JÁ CADASTRADO");
+                    }
+                    else if(identificador.equals(identificadorLido)){
+                        errorTextLabel.setText("CPF OU CNPJ JÁ CADASTRADO");
+                        throw new RuntimeException("CPF OU CNPJ JÁ CADASTRADO");
+
+                    }
+                }
+            }
+            System.out.println("Investidor não encontrado ou senha incorreta");
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
     }
 }

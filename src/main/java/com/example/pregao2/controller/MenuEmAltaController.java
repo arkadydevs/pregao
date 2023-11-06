@@ -1,21 +1,41 @@
 package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import com.example.pregao2.model.ObjectSaveManager;
 
 public class MenuEmAltaController {
 
     @FXML
+    private Button altaBotao;
+
+    @FXML
+    private Button botaoProcurar;
+
+    @FXML
     private Button carteirasMenuBotao;
+
+    @FXML
+    private ComboBox comboBoxAcoesTipo;
+
+    @FXML
+    private ComboBox comboBoxOrdernar;
+
     @FXML
     private Button historicoMenuBotao;
+
     @FXML
     private Button negociarMenuBotao;
+
     @FXML
     private Label nomeUserLabel;
+
     @FXML
     private Label saldoUserLabel;
     private String nome;
@@ -25,8 +45,15 @@ public class MenuEmAltaController {
     @FXML
     public void initialize() {
         userInfo();
+        setComboBoxAcoesTipo();
     }
 
+    public void setComboBoxAcoesTipo(){
+        ObservableList<String> tipos = FXCollections.observableArrayList("fii", "preferencial", "ordinaria");
+        comboBoxAcoesTipo.setItems(tipos);
+    }
+
+    public void OnActionProcurar(ActionEvent event){}
     @FXML
     public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/fxml/menuHistorico.fxml");}
     @FXML
@@ -34,7 +61,7 @@ public class MenuEmAltaController {
     @FXML
     public void OnActionAltaBotao(){sceneSwitcher.switchScene("/fxml/menuEmAlta.fxml");}
     @FXML
-    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");}
+    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuNegociar.fxml");}
 
     public void userInfo(){
         ObjectSaveManager obj = new ObjectSaveManager();

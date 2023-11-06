@@ -22,7 +22,7 @@ public class EscolhaJuridica {
     @FXML
     void OnActionVender(ActionEvent event) {
         SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
-        sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");
+        sceneSwitcher.switchScene("/fxml/menuNegociar.fxml");
     }
 
 }

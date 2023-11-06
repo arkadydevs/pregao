@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 
-public class MenuPrincipal{
+public class MenuNegociar {
     @FXML
     private Label nomeUserLabel;
     @FXML
@@ -49,6 +49,8 @@ public class MenuPrincipal{
     @FXML
     private Button emAltaMenuBotao;
     @FXML
+    private Label erroLabelComboBox;
+    @FXML
     private Button altaBotao;
     private String nome;
     private String id;
@@ -62,6 +64,7 @@ public class MenuPrincipal{
     ObjectSaveManager obj = new ObjectSaveManager();
     LocalDateTime tempo = LocalDateTime.now();
 
+    private String saldoStr;
 
 
 
@@ -79,7 +82,7 @@ public class MenuPrincipal{
         tipoObj = (String) obj.getObject("TIPO");
 
 
-        String saldoStr = (String) obj.getObject("SALDO");
+        saldoStr = (String) obj.getObject("SALDO");
         try {
             saldo = Double.parseDouble(saldoStr);
         } catch (NumberFormatException e) {
@@ -92,7 +95,7 @@ public class MenuPrincipal{
 
     public void spinnerQuantidade() {
         SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                1, 20, 0);
+                0, 20, 0);
         quantidadeSpinner.setValueFactory(valueFactory);
 
         quantidadeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -108,55 +111,70 @@ public class MenuPrincipal{
     @FXML
     public void OnActiontTipoAcaoBotao(ActionEvent event) {
         errorLabel.setText("");
-        String tipoCaminho = (String) comboBoxAcoesTipo.getValue();
-        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
-        ObservableList<String> listaTicket = FXCollections.observableArrayList();
+        erroLabelComboBox.setText("");
+        if (comboBoxAcoesTipo.getValue()==null){
+            erroLabelComboBox.setText("É PRECISO ESCOLHER TIPO DE AÇÃO");
+        }
+        else{
+            String tipoCaminho = (String) comboBoxAcoesTipo.getValue();
+            String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
+            ObservableList<String> listaTicket = FXCollections.observableArrayList();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
-            String linha;
-            while ((linha = bufferedReader.readLine()) != null) {
-                String[] partes = linha.split(" ");
-                if (partes.length >= 2) {
-                    String ticket = partes[1];
-                    if (ticket.matches("[A-Z]+\\d+[A-Z]*")) {
-                        System.out.println(ticket);
-                        listaTicket.add(ticket);
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+                String linha;
+                while ((linha = bufferedReader.readLine()) != null) {
+                    String[] partes = linha.split(" ");
+                    if (partes.length >= 2) {
+                        String ticket = partes[1];
+                        if (ticket.matches("[A-Z]+\\d+[A-Z]*")) {
+                            System.out.println(ticket);
+                            listaTicket.add(ticket);
+                        }
                     }
                 }
+                comboBoxAcoes.setItems(listaTicket);
+            } catch (IOException e) {
+                System.err.println("Erro na leitura do arquivo: " + e.getMessage());
             }
-            comboBoxAcoes.setItems(listaTicket);
-        } catch (IOException e) {
-            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
+
     }
 
     @FXML
     public void OnActionProcurarAcaoBotao(ActionEvent event){
         errorLabel.setText("");
-
-        String acaoEscolhida = (String) comboBoxAcoes.getValue();
-        String tipoCaminho = (String) comboBoxAcoesTipo.getValue();
-        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
-            String linha;
-
-            while ((linha = bufferedReader.readLine()) != null) {
-                String[] partes = linha.split(" ");
-                if (partes.length >= 2 && Objects.equals(partes[1], acaoEscolhida)) {
-                    acaoPreco = partes[2];
-                    spinnerQuantidade();
-                }
-            }
-            ticketNome = (String) comboBoxAcoes.getValue();
-            precoAtualLabel.setText(acaoPreco);
-            nomeTicketLabel.setText(ticketNome);
-        } catch (IOException e) {
-            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        erroLabelComboBox.setText("");
+        if(comboBoxAcoes.getValue() == null){
+            erroLabelComboBox.setText("É PRECISO ESCOLHER UMA AÇÃO");
         }
+        else {
+            String acaoEscolhida = (String) comboBoxAcoes.getValue();
+            String tipoCaminho = (String) comboBoxAcoesTipo.getValue();
+            String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+                String linha;
+
+                while ((linha = bufferedReader.readLine()) != null) {
+                    String[] partes = linha.split(" ");
+                    if (partes.length >= 2 && Objects.equals(partes[1], acaoEscolhida)) {
+                        acaoPreco = partes[2];
+                        spinnerQuantidade();
+                    }
+                }
+                ticketNome = (String) comboBoxAcoes.getValue();
+                precoAtualLabel.setText(acaoPreco);
+                nomeTicketLabel.setText(ticketNome);
+            } catch (IOException e) {
+                System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+            }
+        }
+
     }
     @FXML
-    public void OnActionBotaoConfirmarCompra(){
+    public void OnActionBotaoConfirmarCompra(ActionEvent event){
         errorLabel.setText("");
+        erroLabelComboBox.setText("");
+
         String quantidadePreco = quantidadePrecoLabel.getText();
         String[] precoFinalArray = quantidadePreco.split(": ");
         double precoFinal = Double.parseDouble(precoFinalArray[1]);
@@ -181,6 +199,7 @@ public class MenuPrincipal{
             System.out.println(compra.toString());
             errorLabel.setText("AÇÕES COMPRADAS! SALDO ATUAL: " + saldo);
             errorLabel.setStyle("-fx-text-fill: green;");
+            obj.updateObject("SALDO", String.valueOf(saldo));
         }
     }
 
@@ -268,7 +287,7 @@ public class MenuPrincipal{
     @FXML
     public void OnActionAltaBotao(){sceneSwitcher.switchScene("/fxml/menuEmAlta.fxml");}
     @FXML
-    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");}
+    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuNegociar.fxml");}
 }
 
 

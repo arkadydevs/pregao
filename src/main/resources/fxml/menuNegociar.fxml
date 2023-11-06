@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pregao2.controller.MenuPrincipal">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pregao2.controller.MenuNegociar">
    <children>
       <HBox prefHeight="800.0" prefWidth="1000.0">
          <children>
@@ -81,6 +81,11 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="304.0" prefWidth="684.0">
                      <children>
+                        <Label fx:id="erroLabelComboBox" prefHeight="41.0" prefWidth="545.0" textFill="RED">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
                         <ComboBox fx:id="comboBoxAcoesTipo" prefWidth="150.0" promptText="Tipo da Ação" />
                         <Button fx:id="tipoAcaoBotao" mnemonicParsing="false" onAction="#OnActiontTipoAcaoBotao" text="ESCOLHER!" />
                         <ComboBox fx:id="comboBoxAcoes" prefWidth="150.0" promptText="Ticket da Ação" />

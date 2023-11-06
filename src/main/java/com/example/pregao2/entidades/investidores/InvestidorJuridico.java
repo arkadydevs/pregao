@@ -50,9 +50,13 @@ public class InvestidorJuridico extends Investidor implements Serializable{
             while ((linha = bufferedReader.readLine()) != null) {
                 String[] partes = linha.split(" ");
                 if (partes.length >= 1 && !partes[0].isEmpty()) {
-                    int idLido = Integer.parseInt(partes[0]);
-                    if (idLido >= novoId) {
-                        novoId = idLido + 1;
+                    String idLido = partes[0];
+                    String numero = idLido.replaceAll("[^0-9]", "");
+                    if (!numero.isEmpty()) {
+                        int idNumerico = Integer.parseInt(numero);
+                        if (idNumerico >= novoId) {
+                            novoId = idNumerico + 1;
+                        }
                     }
                 }
             }

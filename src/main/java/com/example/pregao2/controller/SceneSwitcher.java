@@ -18,6 +18,7 @@ public class SceneSwitcher {
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
+            stage.resizableProperty().setValue(false);
 
             stage.setScene(scene);
         } catch (Exception e) {

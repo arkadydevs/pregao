@@ -70,4 +70,14 @@ public class ObjectSaveManager {
             System.out.println("Chave: " + key + ", Valor: " + value);
         }
     }
+
+    public void updateObject(String key, Object updatedObject) {
+        if (map.containsKey(key)) {
+            map.put(key, updatedObject);
+            saveMapToFile();
+            System.out.println("Objeto atualizado com a chave: " + key);
+        } else {
+            System.out.println("Chave não encontrada para atualização: " + key);
+        }
+    }
 }

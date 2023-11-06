@@ -54,7 +54,7 @@ public class MenuCarteirasController {
     @FXML
     public void OnActionAltaBotao(){sceneSwitcher.switchScene("/fxml/menuEmAlta.fxml");}
     @FXML
-    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuPrincipal.fxml");}
+    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuNegociar.fxml");}
 
     public void userInfo(){
         ObjectSaveManager obj = new ObjectSaveManager();
