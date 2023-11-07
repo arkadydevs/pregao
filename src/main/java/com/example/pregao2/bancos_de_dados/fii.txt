@@ -1,2 +1,1 @@
-BesaEmpresa AWEC11B 83.14 7
-BesaEmpresa OPOP11B 61.36 4
+BesaEmpresa AWEC11B 83.14 -4

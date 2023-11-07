@@ -60,6 +60,7 @@ public class MenuNegociar {
     private String ticketNome = "";
     private String tipoObj = "";
     private String idCarteiraGlobal;
+    private double precoTotal;
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
     ObjectSaveManager obj = new ObjectSaveManager();
     LocalDateTime tempo = LocalDateTime.now();
@@ -101,7 +102,7 @@ public class MenuNegociar {
         quantidadeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
             quantidade = (int) newValue;
             double acaoPrecoDouble = Double.parseDouble(acaoPreco);
-            double precoTotal = quantidade * acaoPrecoDouble;
+            precoTotal = quantidade * acaoPrecoDouble;
             precoTotal = Math.round(precoTotal * 100.0) / 100.0;
             quantidadePrecoLabel.setText("Preço: " + String.valueOf(precoTotal));
         });
@@ -124,7 +125,7 @@ public class MenuNegociar {
                 String linha;
                 while ((linha = bufferedReader.readLine()) != null) {
                     String[] partes = linha.split(" ");
-                    if (partes.length >= 2) {
+                    if (partes.length >= 2 && Integer.parseInt(partes[3]) >0) {
                         String ticket = partes[1];
                         if (ticket.matches("[A-Z]+\\d+[A-Z]*")) {
                             System.out.println(ticket);
@@ -175,6 +176,7 @@ public class MenuNegociar {
         errorLabel.setText("");
         erroLabelComboBox.setText("");
 
+
         String quantidadePreco = quantidadePrecoLabel.getText();
         String[] precoFinalArray = quantidadePreco.split(": ");
         double precoFinal = Double.parseDouble(precoFinalArray[1]);
@@ -183,7 +185,9 @@ public class MenuNegociar {
         }else{
 
             saldo = saldo - precoFinal;
+            int quantidade = (int) quantidadeSpinner.getValue();
             atualizarSaldo(saldo);
+            atualizarQuantidade(quantidade, (String) comboBoxAcoesTipo.getValue());
             Historico compra = new Historico();
             String empresaTicket = buscarEmpresaPeloTicket(ticketNome, (String) comboBoxAcoesTipo.getValue());
 
@@ -202,6 +206,7 @@ public class MenuNegociar {
             obj.updateObject("SALDO", String.valueOf(saldo));
         }
     }
+
 
     public String buscarEmpresaPeloTicket(String ticket, String tipoCaminho) {
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoCaminho+".txt";
@@ -244,6 +249,41 @@ public class MenuNegociar {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
 
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (int i = 0; i < linhas.getTamanho(); i++) {
+                String linha = String.valueOf(linhas.get(i));
+                printWriter.println(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+        }
+    }
+
+    public void atualizarQuantidade(int quantidadeComprada, String tipoCaminho) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/" + tipoCaminho + ".txt";
+        ListaEncadeada<String> linhas = new ListaEncadeada<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+
+                if (partes.length >= 3 && partes[1].equals(ticketNome)) {
+                    partes[3] = String.valueOf(Integer.parseInt(partes[3]) - quantidadeComprada);
+                    linha = String.join(" ", partes);
+                }
+                if (Integer.parseInt(partes[3]) <= quantidadeComprada){
+                    errorLabel.setStyle("-fx-text-fill: red;");
+                    errorLabel.setText("QUANTIDADE COMPRADA MAIOR DO QUE DISPONÍVEL");
+                    throw new RuntimeException("QUANTIDADE COMPRADA MAIOR DO QUE DISPONÍVEL");
+                }
+                linhas.addElemento(linha);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
         try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
              PrintWriter printWriter = new PrintWriter(fileWriter)) {
             for (int i = 0; i < linhas.getTamanho(); i++) {

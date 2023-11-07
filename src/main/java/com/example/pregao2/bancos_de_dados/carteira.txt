@@ -7,3 +7,7 @@
 6 7J sdasdasd
 7 2J imbCarteira
 8 1J BancoDoBrasilFII
+9 3J MagaluCarteira
+10 3J lepo2
+11 3J lepolepo3
+12 3J lepolepo4

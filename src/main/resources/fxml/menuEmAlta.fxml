@@ -75,14 +75,62 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="800.0" prefWidth="764.0">
                <children>
-                  <HBox prefHeight="87.0" prefWidth="684.0">
+                  <HBox alignment="CENTER" prefHeight="105.0" prefWidth="684.0">
                      <children>
                         <ComboBox fx:id="comboBoxAcoesTipo" prefWidth="150.0" promptText="Tipo da Ação" />
                         <ComboBox fx:id="comboBoxOrdernar" prefWidth="150.0" promptText="Ordenar Por" />
                         <Button fx:id="botaoProcurar" mnemonicParsing="false" onAction="#OnActionProcurar" prefHeight="25.0" prefWidth="114.0" text="Button" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="624.0" prefWidth="677.0" style="-fx-background-color: #a9a9a9;" />
+                  <VBox prefHeight="650.0" prefWidth="684.0" style="-fx-background-color: #a9a9a9;">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="34.0" prefWidth="684.0">
+                           <children>
+                              <Label text="TICKET">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="PREÇO">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="EMPRESA">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="QUANTIDADE">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="DATA">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="90.0" prefWidth="684.0" />
                </children>
             </VBox>
          </children>

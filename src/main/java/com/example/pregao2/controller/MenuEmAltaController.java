@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import com.example.pregao2.model.ObjectSaveManager;
+import com.example.pregao2.model.QuickSort;
+
 
 public class MenuEmAltaController {
 
@@ -41,16 +43,21 @@ public class MenuEmAltaController {
     private String nome;
     private double saldo;
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
+    private QuickSort quickSort = new QuickSort();
 
     @FXML
     public void initialize() {
         userInfo();
-        setComboBoxAcoesTipo();
+        setComboBox();
+
+
     }
 
-    public void setComboBoxAcoesTipo(){
-        ObservableList<String> tipos = FXCollections.observableArrayList("fii", "preferencial", "ordinaria");
-        comboBoxAcoesTipo.setItems(tipos);
+    public void setComboBox(){
+        ObservableList<String> spinner = FXCollections.observableArrayList("fii", "preferencial", "ordinaria");
+        comboBoxAcoesTipo.setItems(spinner);
+        spinner = FXCollections.observableArrayList("PREÇO MAIS ALTO", "PREÇO MAIS BAIXO", "MAIOR QUANTIDADE", "MENOR QUANTIDADE");
+        comboBoxOrdernar.setItems(spinner);
     }
 
     public void OnActionProcurar(ActionEvent event){}
