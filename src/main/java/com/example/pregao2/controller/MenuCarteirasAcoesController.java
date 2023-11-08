@@ -1,83 +1,80 @@
 package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
-import com.example.pregao2.entidades.Carteira;
+import com.example.pregao2.model.ObjectSaveManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import com.example.pregao2.model.ObjectSaveManager;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
-public class MenuCarteirasController {
+public class MenuCarteirasAcoesController {
+
+    @FXML
+    public Label labelCarteiraNome;
+    @FXML
+    private Button addCarteira;
+
+    @FXML
+    private TextField addCarteiraTextField;
+
+    @FXML
+    private Button altaBotao;
+
+    @FXML
+    private Button botaoVoltarCarteira;
+
+    @FXML
+    private Button carteirasMenuBotao;
 
     @FXML
     private AnchorPane conteudoScrollPane;
     @FXML
-    private Button addCarteira;
-    @FXML
-    private TextField addCarteiraTextField;
-    @FXML
-    private Button altaBotao;
-    @FXML
-    private Button carteirasMenuBotao;
-    @FXML
     private Button historicoMenuBotao;
-    @FXML
-    private ScrollPane scrollPane;
+
     @FXML
     private Button negociarMenuBotao;
+
     @FXML
     private Label nomeUserLabel;
+
     @FXML
     private Label saldoUserLabel;
+
     @FXML
-    private ComboBox comboBoxCarteiras;
+    private ScrollPane scrollPane;
     private String nome;
     private double saldo;
     private String id;
+    private String carteiraNome;
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
-    ObservableList<String> listaCarteiras = FXCollections.observableArrayList();
-
-
-
-
+    ObjectSaveManager obj = new ObjectSaveManager();
+    ObservableList<String[]> listaAcoes = FXCollections.observableArrayList();
 
 
     @FXML
-    public void initialize() {
+    public void initialize(){
         userInfo();
-        setComboxCarteiras(id);
-        setCarteiras();
+        labelCarteiraNome.setText(carteiraNome);
+        setAcoes();
+        setAcoesLabel();
     }
 
-    @FXML
-    public void OnActionAddCarteira(ActionEvent event){
-        Carteira carteira = new Carteira();
-        carteira.setIdInvestidor(id);
-        carteira.setNomeCarteira(addCarteiraTextField.getText());
-        carteira.insert(carteira);
-        setComboxCarteiras(id);
-        setCarteiras();
-    }
-
-    public void setCarteiras(){
-
-        clearCarteiras();
-        for (int i = 0; i < listaCarteiras.size(); i++) {
-            Label label = new Label(listaCarteiras.get(i));
+    public void setAcoesLabel(){
+        for (int i = 0; i < listaAcoes.size(); i++) {
+            Label label = new Label(Arrays.toString(listaAcoes.get(i)));
             Button button = new Button("Botão " + i);
-            label.setFont(new Font(20));
-
 
             button.getProperties().put("labelValue", label.getText());
 
@@ -97,46 +94,42 @@ public class MenuCarteirasController {
         }
     }
 
-
-
-    public void clearCarteiras() {
-        conteudoScrollPane.getChildren().clear();
-    }
-
-    public void setComboxCarteiras(String id){
-        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/carteira.txt";
+    public void setAcoes(){
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/acoesnacarteira.txt";
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
             while ((linha = bufferedReader.readLine()) != null) {
                 String[] partes = linha.split(" ");
-                if (partes.length >= 2) {
-                    String idInvestidor = partes[1];
-                    if (id.equals(idInvestidor)) {
+                if (partes.length >= 3) {
+                    String idInvestidor = partes[0];
+                    String nomeCarteira = partes[1];
+
+                    if (id.equals(idInvestidor) && carteiraNome.equals(nomeCarteira)) {
                         System.out.println(idInvestidor);
-                        listaCarteiras.add(partes[2]);
+                        System.out.println(partes[0]);
+                        System.out.println(partes[2]);
+
+                        listaAcoes.add(partes);
                     }
                 }
             }
-            comboBoxCarteiras.setItems(listaCarteiras);
         } catch (IOException e) {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
 
     }
+
     @FXML
-    public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/fxml/menuHistorico.fxml");}
-    @FXML
-    public void OnAcitonCarteirasMenuBotao(){sceneSwitcher.switchScene("/fxml/menuCarteiras.fxml");}
-    @FXML
-    public void OnActionAltaBotao(){sceneSwitcher.switchScene("/fxml/menuEmAlta.fxml");}
-    @FXML
-    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuNegociar.fxml");}
+    public void OnActionBotaoVoltarCarteira(){
+        obj.removeObject("CARTEIRAACESSADA");
+        sceneSwitcher.switchScene("/fxml/menuCarteiras.fxml");
+    }
 
     public void userInfo(){
-        ObjectSaveManager obj = new ObjectSaveManager();
         nome = (String) obj.getObject("NOME");
         id = (String) obj.getObject("ID");
+        carteiraNome = (String) obj.getObject("CARTEIRAACESSADA");
         String saldoStr = (String) obj.getObject("SALDO");
         try {
             saldo = Double.parseDouble(saldoStr);
@@ -146,5 +139,22 @@ public class MenuCarteirasController {
 
         nomeUserLabel.setText(nome);
         saldoUserLabel.setText(String.valueOf(saldo));
+    }
+
+    @FXML
+    public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/fxml/menuHistorico.fxml");
+        obj.removeObject("CARTEIRAACESSADA");
+    }
+    @FXML
+    public void OnAcitonCarteirasMenuBotao(){sceneSwitcher.switchScene("/fxml/menuCarteiras.fxml");
+        obj.removeObject("CARTEIRAACESSADA");
+    }
+    @FXML
+    public void OnActionAltaBotao(){sceneSwitcher.switchScene("/fxml/menuEmAlta.fxml");
+        obj.removeObject("CARTEIRAACESSADA");
+    }
+    @FXML
+    public void OnActionNegociarMenuBotao(){sceneSwitcher.switchScene("/fxml/menuNegociar.fxml");
+        obj.removeObject("CARTEIRAACESSADA");
     }
 }

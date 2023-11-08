@@ -1,6 +1,7 @@
 package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
+import com.example.pregao2.entidades.AcoesNaCarteira;
 import com.example.pregao2.entidades.Historico;
 import com.example.pregao2.estruturas_de_dados.lista.ListaEncadeada;
 import javafx.collections.FXCollections;
@@ -59,7 +60,6 @@ public class MenuNegociar {
     private String acaoPreco = "";
     private String ticketNome = "";
     private String tipoObj = "";
-    private String idCarteiraGlobal;
     private double precoTotal;
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
     ObjectSaveManager obj = new ObjectSaveManager();
@@ -186,10 +186,12 @@ public class MenuNegociar {
 
             saldo = saldo - precoFinal;
             int quantidade = (int) quantidadeSpinner.getValue();
+            System.out.println(quantidade);
             atualizarSaldo(saldo);
             atualizarQuantidade(quantidade, (String) comboBoxAcoesTipo.getValue());
             Historico compra = new Historico();
             String empresaTicket = buscarEmpresaPeloTicket(ticketNome, (String) comboBoxAcoesTipo.getValue());
+            String idCarteiraGlobal = (String) comboBoxCarteiras.getValue();
 
             compra.setIdCarteira(idCarteiraGlobal);
             compra.setComprador(nome);
@@ -200,6 +202,9 @@ public class MenuNegociar {
             compra.setUnidadesCompradas(quantidade);
             compra.setData(tempo);
             compra.insert(compra);
+
+            AcoesNaCarteira acoesNaCarteira = new AcoesNaCarteira(idCarteiraGlobal, id, ticketNome, precoFinal, quantidade);
+            acoesNaCarteira.insert(acoesNaCarteira);
             System.out.println(compra.toString());
             errorLabel.setText("AÇÕES COMPRADAS! SALDO ATUAL: " + saldo);
             errorLabel.setStyle("-fx-text-fill: green;");
@@ -268,15 +273,17 @@ public class MenuNegociar {
             String linha;
             while ((linha = bufferedReader.readLine()) != null) {
                 String[] partes = linha.split(" ");
-
-                if (partes.length >= 3 && partes[1].equals(ticketNome)) {
-                    partes[3] = String.valueOf(Integer.parseInt(partes[3]) - quantidadeComprada);
-                    linha = String.join(" ", partes);
-                }
-                if (Integer.parseInt(partes[3]) <= quantidadeComprada){
-                    errorLabel.setStyle("-fx-text-fill: red;");
-                    errorLabel.setText("QUANTIDADE COMPRADA MAIOR DO QUE DISPONÍVEL");
-                    throw new RuntimeException("QUANTIDADE COMPRADA MAIOR DO QUE DISPONÍVEL");
+                if (partes.length >= 2 && partes[1].equals(comboBoxAcoes.getValue())) {
+                    int quantidadeDisponivel = Integer.parseInt(partes[3]);
+                    if (quantidadeComprada <= quantidadeDisponivel) {
+                        quantidadeDisponivel -= quantidadeComprada;
+                        partes[3] = String.valueOf(quantidadeDisponivel);
+                        linha = String.join(" ", partes);
+                    } else {
+                        errorLabel.setStyle("-fx-text-fill: red;");
+                        errorLabel.setText("QUANTIDADE COMPRADA MAIOR DO QUE DISPONÍVEL");
+                        throw new RuntimeException("QUANTIDADE COMPRADA MAIOR DO QUE DISPONÍVEL");
+                    }
                 }
                 linhas.addElemento(linha);
             }
@@ -303,10 +310,9 @@ public class MenuNegociar {
             String linha;
             while ((linha = bufferedReader.readLine()) != null) {
                 String[] partes = linha.split(" ");
-                if (partes.length >= 2) {
+                if (partes.length >= 3) {
                     String idInvestidor = partes[1];
                     if (id.equals(idInvestidor)) {
-                        idCarteiraGlobal = partes[0];
                         System.out.println(idInvestidor);
                         listaCarteiras.add(partes[2]);
                     }
@@ -316,7 +322,6 @@ public class MenuNegociar {
         } catch (IOException e) {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
-
     }
 
 
