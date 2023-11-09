@@ -31,5 +31,30 @@ public class Pilha<T> {
         return this.lista.getUltimo();
     }
 
+    public ListaEncadeada<T> ultimosCinco() {
+        ListaEncadeada<T> ultimosCincoElementos = new ListaEncadeada<>();
+
+        int tamanhoPilha = this.lista.getTamanho();
+        int limite = Math.min(tamanhoPilha, 5);
+
+        for (int i = 0; i < limite; i++) {
+            Elemento<T> elemento = this.lista.get(tamanhoPilha - 1 - i);
+            ultimosCincoElementos.addElemento(elemento.getValor());
+        }
+
+        return ultimosCincoElementos;
+    }
+
+    public void imprimirUltimosCinco() {
+        ListaEncadeada<T> ultimosCincoElementos = ultimosCinco();
+
+        int tamanho = ultimosCincoElementos.getTamanho();
+        int inicio = Math.max(0, tamanho - 5);
+
+        for (int i = inicio; i < tamanho; i++) {
+            T elemento = ultimosCincoElementos.get(i).getValor();
+            System.out.println(elemento);
+        }
+    }
 
 }

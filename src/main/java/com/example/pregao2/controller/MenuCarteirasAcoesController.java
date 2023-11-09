@@ -76,6 +76,7 @@ public class MenuCarteirasAcoesController {
     private String nomeAcaoValor;
     private double precoTotal;
     private String nomeEmpresa;
+    private String tipoObj;
 
     @FXML
     public void initialize(){
@@ -89,6 +90,8 @@ public class MenuCarteirasAcoesController {
         LocalDateTime horaDaVenda = LocalDateTime.now();
         Historico historico = new Historico(0, carteiraNome, nome, nomeEmpresa , nomeAcaoValor,precoUnidadeValor, precoTotal, (Integer) quantidadeSpinner.getValue(),horaDaVenda);
         System.out.println(historico.toString());
+        atualizarSaldo(precoTotal);
+
         atualizarQuantidade((Integer) quantidadeSpinner.getValue(), nomeAcaoValor);
         historico.insertVenda(historico);
         setAcoesLabel();
@@ -119,7 +122,6 @@ public class MenuCarteirasAcoesController {
 
                 setQuantidadeSpinner(quantidadeSpinnerValor);
                 nomeAcao.setText(nomeAcaoValor);
-
                 precoUnidade.setText(java.lang.String.valueOf(precoUnidadeValor));
             });
         }
@@ -195,11 +197,11 @@ public class MenuCarteirasAcoesController {
                 String[] partes = linha.split(" ");
                 if (partes.length >= 4 && ticker.equals(partes[3])) {
                     int novaQuantidade = Integer.parseInt(partes[4]) - quantidadeAtivosVendidos;
-                    if (novaQuantidade <= 0) {
-                        // Remova a linha se a quantidade for menor ou igual a zero
-                    } else {
+                    if (novaQuantidade > 0) {
                         partes[4] = String.valueOf(novaQuantidade);
                         linha = String.join(" ", partes);
+                    } else {
+                        continue;
                     }
                 }
                 linhas.addElemento(linha);
@@ -222,6 +224,36 @@ public class MenuCarteirasAcoesController {
     }
 
 
+    public void atualizarSaldo(double novoSaldo) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/" + tipoObj + ".txt";
+        ListaEncadeada<String> linhas = new ListaEncadeada<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 4 && partes[0].equals(id)) {
+                    String novoSaldoStr = String.valueOf(novoSaldo + Double.parseDouble(partes[2]));
+                    partes[2] = (novoSaldoStr);
+                    linha = String.join(" ", partes);
+                    saldoUserLabel.setText(novoSaldoStr);
+                }
+                linhas.addElemento(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (int i = 0; i < linhas.getTamanho(); i++) {
+                String linha = String.valueOf(linhas.get(i));
+                printWriter.println(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+        }
+    }
     @FXML
     public void OnActionBotaoVoltarCarteira(){
         obj.removeObject("CARTEIRAACESSADA");
@@ -231,6 +263,8 @@ public class MenuCarteirasAcoesController {
     public void userInfo(){
         nome = (String) obj.getObject("NOME");
         id = (String) obj.getObject("ID");
+        tipoObj = (String) obj.getObject("TIPO");
+
         carteiraNome = (String) obj.getObject("CARTEIRAACESSADA");
         String saldoStr = (String) obj.getObject("SALDO");
         try {
