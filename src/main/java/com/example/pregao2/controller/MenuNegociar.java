@@ -8,6 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import com.example.pregao2.model.ObjectSaveManager;
 
@@ -53,6 +57,14 @@ public class MenuNegociar {
     private Label erroLabelComboBox;
     @FXML
     private Button altaBotao;
+
+    @FXML
+    private CategoryAxis x;
+    @FXML
+    private NumberAxis y;
+    @FXML
+    private LineChart<?,?> graficoHistorico;
+
     private String nome;
     private String id;
     private double saldo;
@@ -109,6 +121,7 @@ public class MenuNegociar {
     }
 
 
+
     @FXML
     public void OnActiontTipoAcaoBotao(ActionEvent event) {
         errorLabel.setText("");
@@ -141,6 +154,31 @@ public class MenuNegociar {
 
     }
 
+
+    public void setGraficoHistorico() {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/mudancadepreco.txt";
+        XYChart.Series series = new XYChart.Series();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 2 && partes[1].equals(comboBoxAcoes.getValue())) {
+                    String[] precosTabela = partes[2].split(",");
+                    for (int i = 0; i < precosTabela.length; i++) {
+                        String xStr = String.valueOf(i);
+                        double yValue = Double.parseDouble(precosTabela[i]);
+                        series.getData().add(new XYChart.Data(xStr, yValue));
+                    }
+                }
+            }
+            graficoHistorico.getData().clear();
+            graficoHistorico.getData().addAll(series);
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+    }
+
     @FXML
     public void OnActionProcurarAcaoBotao(ActionEvent event){
         errorLabel.setText("");
@@ -165,6 +203,8 @@ public class MenuNegociar {
                 ticketNome = (String) comboBoxAcoes.getValue();
                 precoAtualLabel.setText(acaoPreco);
                 nomeTicketLabel.setText(ticketNome);
+                setGraficoHistorico();
+
             } catch (IOException e) {
                 System.err.println("Erro na leitura do arquivo: " + e.getMessage());
             }
@@ -206,6 +246,7 @@ public class MenuNegociar {
             System.out.println(acoesNaCarteira.toString());
             acoesNaCarteira.insert(acoesNaCarteira);
             System.out.println(compra.toString());
+            atualizarQuantidadeGlobal(quantidade, ticketNome, tipoAcao);
             errorLabel.setText("AÇÕES COMPRADAS! SALDO ATUAL: " + saldo);
             errorLabel.setStyle("-fx-text-fill: green;");
             obj.updateObject("SALDO", String.valueOf(saldo));
@@ -232,6 +273,35 @@ public class MenuNegociar {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
         return null;
+    }
+    public void atualizarQuantidadeGlobal(int quantidadeAtivosVendidos, String ticker,  String tipoAcao) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/" + tipoAcao + ".txt";
+        ListaEncadeada<String> linhas = new ListaEncadeada<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 3 && partes[1].equals(ticker)) {
+                    int novaQuantidade =Integer.parseInt(partes[3])- quantidadeAtivosVendidos;
+                    partes[3] = String.valueOf(novaQuantidade);
+                    linha = String.join(" ", partes);
+                }
+                linhas.addElemento(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (int i = 0; i < linhas.getTamanho(); i++) {
+                String linha = String.valueOf(linhas.get(i));
+                printWriter.println(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+        }
     }
 
     public void atualizarSaldo(double novoSaldo) {

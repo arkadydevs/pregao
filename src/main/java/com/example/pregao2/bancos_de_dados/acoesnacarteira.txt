@@ -1,2 +1,3 @@
-1J OPPPAA preferencial PRES2 1
 1F cateiraUgo ordinaria CCAS3 6
+1J OPPPAA ordinaria DSER3 2
+1J OPPPAA preferencial VVCC2 2

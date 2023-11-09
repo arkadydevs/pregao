@@ -9,9 +9,9 @@ import java.io.PrintWriter;
 public class MudancaDePreco {
     private String tipoAtivo;
     private String ticker;
-    private Pilha<Double> pilhaPrecos;
+    private String pilhaPrecos;
 
-    public MudancaDePreco(String tipoAtivo, String ticker, Pilha<Double> pilhaPrecos) {
+    public MudancaDePreco(String tipoAtivo, String ticker,String pilhaPrecos) {
         this.tipoAtivo = tipoAtivo;
         this.ticker = ticker;
         this.pilhaPrecos = pilhaPrecos;
@@ -33,11 +33,11 @@ public class MudancaDePreco {
         this.ticker = ticker;
     }
 
-    public Pilha<Double> getPilhaPrecos() {
+    public String getPilhaPrecos() {
         return pilhaPrecos;
     }
 
-    public void setPilhaPrecos(Pilha<Double> pilhaPrecos) {
+    public void setPilhaPrecos(String pilhaPrecos) {
         this.pilhaPrecos = pilhaPrecos;
     }
 

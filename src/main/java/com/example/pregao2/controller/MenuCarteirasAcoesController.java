@@ -77,6 +77,7 @@ public class MenuCarteirasAcoesController {
     private double precoTotal;
     private String nomeEmpresa;
     private String tipoObj;
+    private String tipoCaminhoValor;
 
     @FXML
     public void initialize(){
@@ -88,12 +89,14 @@ public class MenuCarteirasAcoesController {
     @FXML
     public void OnActionBotaoConfirmarCompra(){
         LocalDateTime horaDaVenda = LocalDateTime.now();
-        Historico historico = new Historico(0, carteiraNome, nome, nomeEmpresa , nomeAcaoValor,precoUnidadeValor, precoTotal, (Integer) quantidadeSpinner.getValue(),horaDaVenda);
+        int quantidadeValor = (Integer) quantidadeSpinner.getValue();
+        Historico historico = new Historico(0, carteiraNome, nome, nomeEmpresa , nomeAcaoValor,precoUnidadeValor, precoTotal, quantidadeValor,horaDaVenda);
         System.out.println(historico.toString());
         atualizarSaldo(precoTotal);
 
         atualizarQuantidade((Integer) quantidadeSpinner.getValue(), nomeAcaoValor);
         historico.insertVenda(historico);
+        atualizarQuantidadeGlobal(quantidadeValor,nomeAcaoValor, tipoCaminhoValor);
         setAcoesLabel();
     }
 
@@ -117,7 +120,7 @@ public class MenuCarteirasAcoesController {
                 String[] arrayAcao =listaAcao.split(" ");
                 int  quantidadeSpinnerValor = Integer.parseInt(arrayAcao[arrayAcao.length - 1].replaceAll("[^0-9]", "")) ;
                 nomeAcaoValor = arrayAcao[3].replaceAll("[,.]", "");
-                String tipoCaminhoValor =  arrayAcao[2].replaceAll("[,.]", "");
+                tipoCaminhoValor =  arrayAcao[2].replaceAll("[,.]", "");
                 precoUnidadeValor = setPrecoAcaoUnidade(nomeAcaoValor, tipoCaminhoValor);
 
                 setQuantidadeSpinner(quantidadeSpinnerValor);
@@ -254,6 +257,37 @@ public class MenuCarteirasAcoesController {
             System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
         }
     }
+
+    public void atualizarQuantidadeGlobal(int quantidadeAtivosVendidos, String ticker,  String tipoAcao) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/" + tipoAcao + ".txt";
+        ListaEncadeada<String> linhas = new ListaEncadeada<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 3 && partes[1].equals(ticker)) {
+                    int novaQuantidade = quantidadeAtivosVendidos + Integer.parseInt(partes[3]);
+                    partes[3] = String.valueOf(novaQuantidade);
+                    linha = String.join(" ", partes);
+                }
+                linhas.addElemento(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (int i = 0; i < linhas.getTamanho(); i++) {
+                String linha = String.valueOf(linhas.get(i));
+                printWriter.println(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+        }
+    }
+
     @FXML
     public void OnActionBotaoVoltarCarteira(){
         obj.removeObject("CARTEIRAACESSADA");

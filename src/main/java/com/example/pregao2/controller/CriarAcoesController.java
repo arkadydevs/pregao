@@ -1,9 +1,11 @@
 package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
+import com.example.pregao2.entidades.MudancaDePreco;
 import com.example.pregao2.entidades.ativos.Fii;
 import com.example.pregao2.entidades.ativos.Ordinaria;
 import com.example.pregao2.entidades.ativos.Preferencial;
+import com.example.pregao2.estruturas_de_dados.pilha.Pilha;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -59,7 +61,7 @@ public class CriarAcoesController {
     }
 
     public void setComboBoxTipo() {
-        comboBoxTipo.getItems().addAll("FII", "PREFERENCIAL", "ORDINÁRIA");
+        comboBoxTipo.getItems().addAll("fii", "preferencial", "ordinaria");
     }
 
 
@@ -72,8 +74,18 @@ public class CriarAcoesController {
         double numeroAleatorio = random.nextDouble() * 150;
         numeroAleatorio = Math.round(numeroAleatorio * 100.0) / 100.0;
         LocalDate dataDeHoje = LocalDate.now();
+        Pilha<Double> pilhaPrecos = new Pilha<>();
+        for (int i = 0; i < 10; i++){
+            double numeroAleatorioPilha = random.nextDouble() * 150;
+            numeroAleatorioPilha = Math.round(numeroAleatorioPilha * 100.0) / 100.0;
+            pilhaPrecos.addElemento(numeroAleatorioPilha);
+            System.out.println(numeroAleatorioPilha);
+        }
+        pilhaPrecos.addElemento(numeroAleatorio);
+        MudancaDePreco mudancaDePreco = new MudancaDePreco(tipoAcao, ticket, pilhaPrecos.toString());
+        mudancaDePreco.insert(mudancaDePreco);
 
-        if (Objects.equals(tipoAcao, "FII")) {
+        if (Objects.equals(tipoAcao, "fii")) {
             try {
 
                 Fii ativo = new Fii(nome, ticket, numeroAleatorio, loteQuantidade);
@@ -85,7 +97,7 @@ public class CriarAcoesController {
                 System.err.println("ERRO " + e);
             }
         }
-        else if (Objects.equals(tipoAcao, "ORDINÁRIA")) {
+        else if (Objects.equals(tipoAcao, "ordinaria")) {
             try {
 
                 Ordinaria ativo = new Ordinaria(nome, ticket, numeroAleatorio , loteQuantidade);
@@ -98,7 +110,7 @@ public class CriarAcoesController {
                 System.err.println("ERRO " + e);
             }
         }
-        else if (Objects.equals(tipoAcao, "PREFERENCIAL")) {
+        else if (Objects.equals(tipoAcao, "preferencial")) {
             try {
 
                 Preferencial ativo = new Preferencial(nome, ticket, numeroAleatorio, loteQuantidade);
@@ -143,9 +155,9 @@ public class CriarAcoesController {
         }
         else {
             String tipoText = switch (comboBoxTipo.getValue()) {
-                case "FII" -> "11B";
-                case "PREFERENCIAL" -> "2";
-                case "ORDINÁRIA" -> "3";
+                case "fii" -> "11B";
+                case "preferencial" -> "2";
+                case "ordinaria" -> "3";
                 default -> "";
             };
             String textFieldExemplo = textFieldNome1.getText() + textFieldNome2.getText() + textFieldNome3.getText() + textFieldNome4.getText() + tipoText;
