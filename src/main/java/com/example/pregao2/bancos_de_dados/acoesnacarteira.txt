@@ -1,7 +1,2 @@
-3J lepo2 ADSD2 98.98 1
-3J lepo2 ADSD2 98.98 1
-3J lepo2 ADSD2 395.92 4
-3J lepo2 ADSD2 197.96 2
-3J MagaluCarteira ADSD2 98.98 1
-3J MagaluCarteira BBNC3 135.24 1
-3J MagaluCarteira BANC3 26.61 3
+1J OPPPAA preferencial PRES2 1
+1J OPPPAA ordinaria CCAS3 1

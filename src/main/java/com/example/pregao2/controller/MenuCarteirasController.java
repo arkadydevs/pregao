@@ -2,6 +2,7 @@ package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
 import com.example.pregao2.entidades.Carteira;
+import com.example.pregao2.estruturas_de_dados.lista.ListaEncadeada;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,11 +13,11 @@ import javafx.scene.control.*;
 import com.example.pregao2.model.ObjectSaveManager;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.Arrays;
 
 public class MenuCarteirasController {
 
@@ -40,8 +41,11 @@ public class MenuCarteirasController {
     private Label nomeUserLabel;
     @FXML
     private Label saldoUserLabel;
+    private ListaEncadeada<Double> listaPreco = new ListaEncadeada<>();
+
     @FXML
-    private ComboBox comboBoxCarteiras;
+    private Label totalInvestidoLabel;
+    ObservableList<String[]> listaAcoes = FXCollections.observableArrayList();
     private String nome;
     private double saldo;
     private String id;
@@ -49,15 +53,16 @@ public class MenuCarteirasController {
     ObservableList<String> listaCarteiras = FXCollections.observableArrayList();
 
 
-
-
-
-
     @FXML
     public void initialize() {
         userInfo();
         setComboxCarteiras(id);
         setCarteiras();
+        setAcoes();
+        double totalInvestido = somarListaPreco(setTotalInvestido());
+        System.out.println(setTotalInvestido());
+        System.out.println(totalInvestido);
+        totalInvestidoLabel.setText(String.valueOf(totalInvestido));
     }
 
     @FXML
@@ -68,16 +73,19 @@ public class MenuCarteirasController {
         carteira.insert(carteira);
         setComboxCarteiras(id);
         setCarteiras();
+
     }
 
-    public void setCarteiras(){
-
+    public void setCarteiras() {
+        VBox contentVBox = new VBox();
+        contentVBox.setAlignment(Pos.TOP_CENTER);
+        contentVBox.getChildren().clear();
         clearCarteiras();
+
         for (int i = 0; i < listaCarteiras.size(); i++) {
             Label label = new Label(listaCarteiras.get(i));
             Button button = new Button("Botão " + i);
             label.setFont(new Font(20));
-
 
             button.getProperties().put("labelValue", label.getText());
 
@@ -86,7 +94,7 @@ public class MenuCarteirasController {
             hbox.setPadding(new Insets(0, 10, 0, 0));
             hbox.setAlignment(Pos.CENTER);
             hbox.setLayoutY(i * 50);
-            conteudoScrollPane.getChildren().add(hbox);
+            contentVBox.getChildren().add(hbox);
 
             button.setOnAction(event -> {
                 String labelValue = (String) button.getProperties().get("labelValue");
@@ -95,9 +103,9 @@ public class MenuCarteirasController {
                 sceneSwitcher.switchScene("/fxml/menuCarteirasAcoes.fxml");
             });
         }
+
+        conteudoScrollPane.getChildren().add(contentVBox);
     }
-
-
 
     public void clearCarteiras() {
         conteudoScrollPane.getChildren().clear();
@@ -105,7 +113,6 @@ public class MenuCarteirasController {
 
     public void setComboxCarteiras(String id){
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/carteira.txt";
-
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
             while ((linha = bufferedReader.readLine()) != null) {
@@ -118,12 +125,80 @@ public class MenuCarteirasController {
                     }
                 }
             }
-            comboBoxCarteiras.setItems(listaCarteiras);
+
         } catch (IOException e) {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
-
     }
+
+    public void setAcoes(){
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/acoesnacarteira.txt";
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 3) {
+                    String idInvestidor = partes[0];
+
+                    if (id.equals(idInvestidor)) {
+
+                        listaAcoes.add(partes);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+    }
+
+    public ListaEncadeada<Double> setTotalInvestido() {
+        for (int i = 0; i < listaAcoes.size(); i++) {
+            String[] partes = listaAcoes.get(i);
+            if (partes.length >= 5) {
+                String tipoAcao = partes[2];
+                String ticker = partes[3];
+                double quantidade = Double.parseDouble(partes[4]);
+
+                String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/" + tipoAcao + ".txt";
+
+                try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+                    String linha;
+                    while ((linha = bufferedReader.readLine()) != null) {
+                        String[] partesAcao = linha.split(" ");
+                        if (partesAcao.length >= 3) {
+                            String tickerTxt = partesAcao[1];
+
+                            if (ticker.equals(tickerTxt)) {
+                                listaPreco.addElemento(Double.parseDouble(partesAcao[2]) * quantidade);
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+                }
+            } else {
+                System.err.println("Formato de ação inválido: " + Arrays.toString(partes));
+            }
+        }
+
+        return listaPreco;
+    }
+
+
+    public double somarListaPreco(ListaEncadeada<Double> listaPreco) {
+        double soma = 0;
+
+        for (int i = 0; i < listaPreco.getTamanho(); i++) {
+            double precoAtual = listaPreco.get(i).getValor();
+            soma = soma +precoAtual;
+        }
+
+        return soma;
+    }
+
+
+
     @FXML
     public void OnActionHistoricoMenuBotao(){sceneSwitcher.switchScene("/fxml/menuHistorico.fxml");}
     @FXML

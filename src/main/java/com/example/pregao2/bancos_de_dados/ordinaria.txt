@@ -1,3 +1,1 @@
-BancoDoBrasilSA BANC3 8.87 0
-BancoDoBrasilSA BBNC3 135.24 0
-
+BancoDaAnaSA CCAS3 140.0 14

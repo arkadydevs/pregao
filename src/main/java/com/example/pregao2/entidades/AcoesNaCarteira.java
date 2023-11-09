@@ -10,17 +10,17 @@ public class AcoesNaCarteira {
 
     private String idCarteira;
     private String idInvestidor;
+    private String tipoTicker;
     private String ticker;
-    private double precoPago;
     private int quantidade;
 
     public AcoesNaCarteira(){}
 
-    public AcoesNaCarteira(String idCarteira, String idInvestidor, String ticker, double precoPago, int quantidade) {
+    public AcoesNaCarteira(String idCarteira, String idInvestidor, String tipoTicker, String ticker, int quantidade) {
         this.idCarteira = idCarteira;
         this.idInvestidor = idInvestidor;
+        this.tipoTicker = tipoTicker;
         this.ticker = ticker;
-        this.precoPago = precoPago;
         this.quantidade = quantidade;
     }
 
@@ -48,12 +48,13 @@ public class AcoesNaCarteira {
         this.ticker = ticker;
     }
 
-    public double getPrecoPago() {
-        return precoPago;
+
+    public String getTipoTicker() {
+        return tipoTicker;
     }
 
-    public void setPrecoPago(double precoPago) {
-        this.precoPago = precoPago;
+    public void setTipoTicker(String tipoTicker) {
+        this.tipoTicker = tipoTicker;
     }
 
     public int getQuantidade() {
@@ -72,13 +73,13 @@ public class AcoesNaCarteira {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
             String linha;
             while ((linha = bufferedReader.readLine()) != null) {
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
                 String[] partes = linha.split(" ");
-                if (partes.length >= 4 && partes[1].equals(acoesNaCarteira.getIdCarteira()) && partes[2].equals(acoesNaCarteira.getTicker())) {
+                if (partes.length >= 4 && partes[1].equals(acoesNaCarteira.getIdCarteira()) && partes[3].equals(acoesNaCarteira.getTicker())) {
                     int quantidadeAtual = Integer.parseInt(partes[4]);
-                    double precoAtual = Double.parseDouble(partes[3]);
                     quantidadeAtual += acoesNaCarteira.getQuantidade();
-                    precoAtual += acoesNaCarteira.getPrecoPago();
-                    partes[3] = String.valueOf(precoAtual);
                     partes[4] = String.valueOf(quantidadeAtual);
                     linha = String.join(" ", partes);
                     tickerJaExiste = true;
@@ -87,18 +88,15 @@ public class AcoesNaCarteira {
             }
         } catch (IOException e) {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+            return;
         }
 
         if (!tickerJaExiste) {
-            try (FileWriter fileWriter = new FileWriter(caminhoArquivo, true);
-                 PrintWriter printWriter = new PrintWriter(fileWriter)) {
-                printWriter.println(acoesNaCarteira.getIdInvestidor() + " " + acoesNaCarteira.getIdCarteira() + " " + acoesNaCarteira.getTicker() + " " + acoesNaCarteira.getPrecoPago() + " " + acoesNaCarteira.getQuantidade());
-            } catch (IOException e) {
-                System.err.println("Erro ao adicionar registro: " + e.getMessage());
-            }
+            String novaLinha = acoesNaCarteira.getIdInvestidor() + " " + acoesNaCarteira.getIdCarteira() + " "+ acoesNaCarteira.getTipoTicker() + " "+ acoesNaCarteira.getTicker() + " " + acoesNaCarteira.getQuantidade();
+            linhas.addElemento(novaLinha);
         }
 
-        try (FileWriter fileWriter = new FileWriter(caminhoArquivo);
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
              PrintWriter printWriter = new PrintWriter(fileWriter)) {
             for (int i = 0; i < linhas.getTamanho(); i++) {
                 printWriter.println(linhas.get(i));
@@ -109,6 +107,13 @@ public class AcoesNaCarteira {
     }
 
 
-
-
+    @Override
+    public String toString() {
+        return "AcoesNaCarteira{" +
+                "idCarteira='" + idCarteira + '\'' +
+                ", idInvestidor='" + idInvestidor + '\'' +
+                ", ticker='" + ticker + '\'' +
+                ", quantidade=" + quantidade +
+                '}';
+    }
 }

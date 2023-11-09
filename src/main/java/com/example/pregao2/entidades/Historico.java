@@ -121,6 +121,21 @@ public class Historico {
         }
     }
 
+    public void insertVenda(Historico historico) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/historicovendas.txt";
+        int novoId = obterProximoId(caminhoArquivo);
+
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, true);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+
+            printWriter.println(novoId+ " "+ historico.getIdCarteira() +" " + historico.getComprador() + " " + historico.getEmpresa() + " " + historico.getTicket() + " " + historico.getPrecoUnitario() + " " + historico.getPrecoTotal() + " "  + historico.getUnidadesCompradas() + " " + getData());
+
+        } catch (IOException e) {
+            System.err.println("Erro ao adicionar registro: " + e.getMessage());
+        }
+    }
+
     public static int obterProximoId(String caminhoArquivo) {
         int novoId = 1;
 
@@ -146,9 +161,9 @@ public class Historico {
     @Override
     public String toString() {
         return "Historico{" +
-                "id='" + id+ '\''+
-                ",comprador='" + comprador + '\'' +
-                ",idCarteira='" + idCarteira + '\'' +
+                "id=" + id +
+                ", idCarteira='" + idCarteira + '\'' +
+                ", comprador='" + comprador + '\'' +
                 ", empresa='" + empresa + '\'' +
                 ", ticket='" + ticket + '\'' +
                 ", precoUnitario=" + precoUnitario +

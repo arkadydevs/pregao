@@ -1,1 +1,2 @@
-BesaEmpresa AWEC11B 83.14 -4
+BancoDaAnaSA BDAS11B 92.38 7
+BancoDaAnaSA BCAS11B 90.3 18

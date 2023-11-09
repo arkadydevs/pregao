@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -86,12 +85,16 @@
                            </HBox.margin></Button>
                      </children>
                   </HBox>
-                  <ComboBox fx:id="comboBoxCarteiras" prefWidth="150.0" />
-                  <VBox prefHeight="633.0" prefWidth="684.0">
+                  <Label fx:id="totalInvestidoLabel" alignment="CENTER" prefHeight="46.0" prefWidth="566.0" text="Label" textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="System Bold" size="31.0" />
+                     </font>
+                  </Label>
+                  <VBox alignment="CENTER" prefHeight="614.0" prefWidth="647.0">
                      <children>
-                        <ScrollPane fx:id="scrollPane" prefHeight="627.0" prefWidth="684.0">
+                        <ScrollPane fx:id="scrollPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="601.0" prefWidth="224.0">
                           <content>
-                            <AnchorPane fx:id="conteudoScrollPane" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="680.0" />
+                            <AnchorPane fx:id="conteudoScrollPane" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="206.0" />
                           </content>
                         </ScrollPane>
                      </children>

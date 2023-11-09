@@ -1,36 +1,28 @@
 package com.example.pregao2.controller;
 
 import com.example.pregao2.MainApp;
+import com.example.pregao2.entidades.Historico;
+import com.example.pregao2.estruturas_de_dados.lista.ListaEncadeada;
 import com.example.pregao2.model.ObjectSaveManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 public class MenuCarteirasAcoesController {
-
-    @FXML
-    public Label labelCarteiraNome;
-    @FXML
-    private Button addCarteira;
-
-    @FXML
-    private TextField addCarteiraTextField;
-
     @FXML
     private Button altaBotao;
+
+    @FXML
+    private Button botaoConfirmarVenda;
 
     @FXML
     private Button botaoVoltarCarteira;
@@ -40,8 +32,15 @@ public class MenuCarteirasAcoesController {
 
     @FXML
     private AnchorPane conteudoScrollPane;
+
+    @FXML
+    private Label errorLabel;
+
     @FXML
     private Button historicoMenuBotao;
+
+    @FXML
+    private Label labelCarteiraNome;
 
     @FXML
     private Button negociarMenuBotao;
@@ -50,24 +49,48 @@ public class MenuCarteirasAcoesController {
     private Label nomeUserLabel;
 
     @FXML
+    private Label precoUnidade;
+
+    @FXML
+    private Label quantidadePrecoLabel;
+
+    @FXML
+    private Spinner quantidadeSpinner;
+
+    @FXML
     private Label saldoUserLabel;
 
+    @FXML
+    private Label nomeAcao;
     @FXML
     private ScrollPane scrollPane;
     private String nome;
     private double saldo;
     private String id;
     private String carteiraNome;
+    private double precoUnidadeValor;
+    private ListaEncadeada<Double> listaPreco;
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
     ObjectSaveManager obj = new ObjectSaveManager();
     ObservableList<String[]> listaAcoes = FXCollections.observableArrayList();
-
+    private String nomeAcaoValor;
+    private double precoTotal;
+    private String nomeEmpresa;
 
     @FXML
     public void initialize(){
         userInfo();
         labelCarteiraNome.setText(carteiraNome);
         setAcoes();
+        setAcoesLabel();
+    }
+    @FXML
+    public void OnActionBotaoConfirmarCompra(){
+        LocalDateTime horaDaVenda = LocalDateTime.now();
+        Historico historico = new Historico(0, carteiraNome, nome, nomeEmpresa , nomeAcaoValor,precoUnidadeValor, precoTotal, (Integer) quantidadeSpinner.getValue(),horaDaVenda);
+        System.out.println(historico.toString());
+        atualizarQuantidade((Integer) quantidadeSpinner.getValue(), nomeAcaoValor);
+        historico.insertVenda(historico);
         setAcoesLabel();
     }
 
@@ -85,14 +108,38 @@ public class MenuCarteirasAcoesController {
             hbox.setLayoutY(i * 50);
             conteudoScrollPane.getChildren().add(hbox);
 
+            int finalI = i;
             button.setOnAction(event -> {
-                String labelValue = (String) button.getProperties().get("labelValue");
-                ObjectSaveManager obj = new ObjectSaveManager();
-                obj.saveObject("CARTEIRAACESSADA", labelValue);
-                sceneSwitcher.switchScene("/fxml/menuCarteirasAcoes.fxml");
+                String listaAcao = Arrays.toString(listaAcoes.get(finalI));
+                String[] arrayAcao =listaAcao.split(" ");
+                int  quantidadeSpinnerValor = Integer.parseInt(arrayAcao[arrayAcao.length - 1].replaceAll("[^0-9]", "")) ;
+                nomeAcaoValor = arrayAcao[3].replaceAll("[,.]", "");
+                String tipoCaminhoValor =  arrayAcao[2].replaceAll("[,.]", "");
+                precoUnidadeValor = setPrecoAcaoUnidade(nomeAcaoValor, tipoCaminhoValor);
+
+                setQuantidadeSpinner(quantidadeSpinnerValor);
+                nomeAcao.setText(nomeAcaoValor);
+
+                precoUnidade.setText(java.lang.String.valueOf(precoUnidadeValor));
             });
         }
     }
+
+
+
+    public void setQuantidadeSpinner(int quantidadeMax){
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, quantidadeMax, 0);
+        quantidadeSpinner.setValueFactory(valueFactory);
+
+        quantidadeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
+            int quantidade = (int) newValue;
+            precoTotal = quantidade * precoUnidadeValor;
+            precoTotal = Math.round(precoTotal * 100.0) / 100.0;
+            quantidadePrecoLabel.setText("Preço: " + precoTotal);
+        });
+    }
+
+
 
     public void setAcoes(){
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/acoesnacarteira.txt";
@@ -106,9 +153,6 @@ public class MenuCarteirasAcoesController {
                     String nomeCarteira = partes[1];
 
                     if (id.equals(idInvestidor) && carteiraNome.equals(nomeCarteira)) {
-                        System.out.println(idInvestidor);
-                        System.out.println(partes[0]);
-                        System.out.println(partes[2]);
 
                         listaAcoes.add(partes);
                     }
@@ -117,8 +161,66 @@ public class MenuCarteirasAcoesController {
         } catch (IOException e) {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
-
     }
+
+    public Double setPrecoAcaoUnidade(String ticker, String tipoAcao){
+
+            String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ tipoAcao +".txt";
+            double valorUnitario = 0;
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+                String linha;
+                while ((linha = bufferedReader.readLine()) != null) {
+                    String[] partes = linha.split(" ");
+                    if (partes.length >= 3) {
+                        String tickerTxt = partes[1];
+                        if (ticker.equals(tickerTxt)) {
+                            valorUnitario = Double.parseDouble(partes[2]);
+                            nomeEmpresa = partes[0];
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+            }
+        return valorUnitario;
+    }
+
+    public void atualizarQuantidade(int quantidadeAtivosVendidos, String ticker) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/acoesnacarteira.txt";
+        ListaEncadeada<String> linhas = new ListaEncadeada<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 4 && ticker.equals(partes[3])) {
+                    int novaQuantidade = Integer.parseInt(partes[4]) - quantidadeAtivosVendidos;
+                    if (novaQuantidade <= 0) {
+                        // Remova a linha se a quantidade for menor ou igual a zero
+                    } else {
+                        partes[4] = String.valueOf(novaQuantidade);
+                        linha = String.join(" ", partes);
+                    }
+                }
+                linhas.addElemento(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (int i = 0; i < linhas.getTamanho(); i++) {
+                String linha = String.valueOf(linhas.get(i));
+                if (!linha.isEmpty()) {
+                    printWriter.println(linha);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+        }
+    }
+
 
     @FXML
     public void OnActionBotaoVoltarCarteira(){

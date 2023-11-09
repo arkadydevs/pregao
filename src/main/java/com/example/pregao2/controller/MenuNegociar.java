@@ -183,14 +183,13 @@ public class MenuNegociar {
         if(precoFinal > saldo){
             errorLabel.setText("SALDO INSUFICIENTE");
         }else{
-
+            String tipoAcao = (String) comboBoxAcoesTipo.getValue();
             saldo = saldo - precoFinal;
             int quantidade = (int) quantidadeSpinner.getValue();
             System.out.println(quantidade);
             atualizarSaldo(saldo);
-            atualizarQuantidade(quantidade, (String) comboBoxAcoesTipo.getValue());
             Historico compra = new Historico();
-            String empresaTicket = buscarEmpresaPeloTicket(ticketNome, (String) comboBoxAcoesTipo.getValue());
+            String empresaTicket = buscarEmpresaPeloTicket(ticketNome, tipoAcao);
             String idCarteiraGlobal = (String) comboBoxCarteiras.getValue();
 
             compra.setIdCarteira(idCarteiraGlobal);
@@ -203,7 +202,8 @@ public class MenuNegociar {
             compra.setData(tempo);
             compra.insert(compra);
 
-            AcoesNaCarteira acoesNaCarteira = new AcoesNaCarteira(idCarteiraGlobal, id, ticketNome, precoFinal, quantidade);
+            AcoesNaCarteira acoesNaCarteira = new AcoesNaCarteira(idCarteiraGlobal, id, tipoAcao ,ticketNome, quantidade);
+            System.out.println(acoesNaCarteira.toString());
             acoesNaCarteira.insert(acoesNaCarteira);
             System.out.println(compra.toString());
             errorLabel.setText("AÇÕES COMPRADAS! SALDO ATUAL: " + saldo);
@@ -265,42 +265,7 @@ public class MenuNegociar {
         }
     }
 
-    public void atualizarQuantidade(int quantidadeComprada, String tipoCaminho) {
-        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/" + tipoCaminho + ".txt";
-        ListaEncadeada<String> linhas = new ListaEncadeada<>();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
-            String linha;
-            while ((linha = bufferedReader.readLine()) != null) {
-                String[] partes = linha.split(" ");
-                if (partes.length >= 2 && partes[1].equals(comboBoxAcoes.getValue())) {
-                    int quantidadeDisponivel = Integer.parseInt(partes[3]);
-                    if (quantidadeComprada <= quantidadeDisponivel) {
-                        quantidadeDisponivel -= quantidadeComprada;
-                        partes[3] = String.valueOf(quantidadeDisponivel);
-                        linha = String.join(" ", partes);
-                    } else {
-                        errorLabel.setStyle("-fx-text-fill: red;");
-                        errorLabel.setText("QUANTIDADE COMPRADA MAIOR DO QUE DISPONÍVEL");
-                        throw new RuntimeException("QUANTIDADE COMPRADA MAIOR DO QUE DISPONÍVEL");
-                    }
-                }
-                linhas.addElemento(linha);
-            }
-
-        } catch (IOException e) {
-            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
-        }
-        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
-             PrintWriter printWriter = new PrintWriter(fileWriter)) {
-            for (int i = 0; i < linhas.getTamanho(); i++) {
-                String linha = String.valueOf(linhas.get(i));
-                printWriter.println(linha);
-            }
-        } catch (IOException e) {
-            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
-        }
-    }
 
     public void setComboxCarteiras(String id){
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/carteira.txt";
