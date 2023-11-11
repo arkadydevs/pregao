@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import com.example.pregao2.model.ObjectSaveManager;
-import com.example.pregao2.model.QuickSort;
+import com.example.pregao2.model.ShellSort;
 
 
 public class MenuEmAltaController {
@@ -43,7 +43,7 @@ public class MenuEmAltaController {
     private String nome;
     private double saldo;
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
-    private QuickSort quickSort = new QuickSort();
+    private ShellSort quickSort = new ShellSort();
 
     @FXML
     public void initialize() {

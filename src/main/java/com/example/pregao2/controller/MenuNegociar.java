@@ -16,8 +16,11 @@ import javafx.scene.control.*;
 import com.example.pregao2.model.ObjectSaveManager;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.Random;
 
 
 public class MenuNegociar {
@@ -165,7 +168,7 @@ public class MenuNegociar {
                 String[] partes = linha.split(" ");
                 if (partes.length >= 2 && partes[1].equals(comboBoxAcoes.getValue())) {
                     String[] precosTabela = partes[2].split(",");
-                    for (int i = 0; i < precosTabela.length; i++) {
+                    for (int i = precosTabela.length - 1; i >= 0; i--) {
                         String xStr = String.valueOf(i);
                         double yValue = Double.parseDouble(precosTabela[i]);
                         series.getData().add(new XYChart.Data(xStr, yValue));
@@ -201,6 +204,7 @@ public class MenuNegociar {
                     }
                 }
                 ticketNome = (String) comboBoxAcoes.getValue();
+                checarUltimaAtualizacao(ticketNome);
                 precoAtualLabel.setText(acaoPreco);
                 nomeTicketLabel.setText(ticketNome);
                 setGraficoHistorico();
@@ -356,6 +360,79 @@ public class MenuNegociar {
             comboBoxCarteiras.setItems(listaCarteiras);
         } catch (IOException e) {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+    }
+
+    public void checarUltimaAtualizacao(String ticker) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/mudancadepreco.txt";
+        ListaEncadeada<String> linhas = new ListaEncadeada<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 3 && partes[1].equals(ticker)) {
+                    LocalDate diaTxt = LocalDate.parse(partes[3]);
+                    LocalDate hoje = LocalDate.now();
+                    long diferencaEmDias = ChronoUnit.DAYS.between(diaTxt, hoje);
+
+                    if (diferencaEmDias >= 1) {
+                        partes[3] = String.valueOf(hoje);
+                        Random random = new Random();
+                        double numeroAleatorio = random.nextDouble() * 150;
+                        numeroAleatorio = Math.round(numeroAleatorio * 100.0) / 100.0;
+                        partes[2] = String.valueOf(numeroAleatorio) +","+partes[2];
+                        System.out.println(numeroAleatorio);
+                        atualizarPrecoAtivo(ticker, String.valueOf(numeroAleatorio));
+
+                        linha = String.join(" ", partes);
+
+                    }
+                }
+                linhas.addElemento(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (int i = 0; i < linhas.getTamanho(); i++) {
+                String linha = String.valueOf(linhas.get(i));
+                printWriter.println(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
+        }
+    }
+
+    public void atualizarPrecoAtivo(String ticker, String ultimoPreco) {
+        String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/"+ comboBoxAcoesTipo.getValue() +".txt";
+        ListaEncadeada<String> linhas = new ListaEncadeada<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            String linha;
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] partes = linha.split(" ");
+                if (partes.length >= 3 && partes[1].equals(ticker)) {
+                    partes[2] = ultimoPreco;
+                    linha = String.join(" ", partes);
+
+                }
+                linhas.addElemento(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro na leitura do arquivo: " + e.getMessage());
+        }
+
+        try (FileWriter fileWriter = new FileWriter(caminhoArquivo, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
+            for (int i = 0; i < linhas.getTamanho(); i++) {
+                String linha = String.valueOf(linhas.get(i));
+                printWriter.println(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever o arquivo: " + e.getMessage());
         }
     }
 

@@ -10,8 +10,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import com.example.pregao2.model.ObjectSaveManager;
+import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -82,7 +84,8 @@ public class CriarAcoesController {
             System.out.println(numeroAleatorioPilha);
         }
         pilhaPrecos.addElemento(numeroAleatorio);
-        MudancaDePreco mudancaDePreco = new MudancaDePreco(tipoAcao, ticket, pilhaPrecos.toString());
+        LocalDate hoje = LocalDate.now();
+        MudancaDePreco mudancaDePreco = new MudancaDePreco(tipoAcao, ticket, pilhaPrecos.toString(),hoje);
         mudancaDePreco.insert(mudancaDePreco);
 
         if (Objects.equals(tipoAcao, "fii")) {
