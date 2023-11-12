@@ -64,6 +64,11 @@
                         <Font name="System Bold" size="19.0" />
                      </font>
                   </Label>
+                  <Label fx:id="errorLabel" alignment="CENTER" prefHeight="40.0" prefWidth="303.0">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                  </Label>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Button fx:id="voltarMenuEscolha" mnemonicParsing="false" onAction="#OnActionVoltarMenuEscolha" text="Voltar">

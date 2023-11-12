@@ -85,6 +85,7 @@ public class MenuCarteirasController {
             carteira.insert(carteira);
             setComboxCarteiras(id);
             setCarteiras();
+            sceneSwitcher.switchScene("/fxml/menuCarteiras.fxml");
         }
     }
 

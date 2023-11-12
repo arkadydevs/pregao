@@ -76,21 +76,29 @@ public class MenuEmAltaController {
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/" + comboBoxAcoesTipo.getValue() + ".txt";
         String[] arrayTickerOrdenado = ordenarEmAlta();
 
-        List<String> linhasFormatadas = new ArrayList<>();
+        ListaEncadeada<String> linhasFormatadas = new ListaEncadeada<>();
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            List<String> todasAsLinhas = new ArrayList<>();
             String linha;
             while ((linha = bufferedReader.readLine()) != null) {
-                String[] partes = linha.split(" ");
-                if (partes.length >= 4 && Arrays.asList(arrayTickerOrdenado).contains(partes[1])) {
-                    String detalhesFormatados = String.format("%-10s | %-10s | %-10s | %-10s", partes[0], partes[1], partes[2], partes[3]);
-                    linhasFormatadas.add(detalhesFormatados);
+                todasAsLinhas.add(linha);
+            }
+
+            for (int i = 0; i < arrayTickerOrdenado.length; i++) {
+                for (String linhaArquivo : todasAsLinhas) {
+                    String[] partes = linhaArquivo.split(" ");
+                    if (partes.length >= 4 && arrayTickerOrdenado[i].equals(partes[1])) {
+                        String detalhesFormatados = String.format("%-10s | %-10s | %-10s | %-10s", partes[0], partes[1], partes[2], partes[3]);
+                        System.out.println(detalhesFormatados);
+                        linhasFormatadas.addElemento(detalhesFormatados);
+                    }
                 }
             }
 
             vboxPesquisa.getChildren().clear();
-            for (String linhaFormatada : linhasFormatadas) {
-                Label label = new Label(linhaFormatada);
+            for (int i = 0; i < linhasFormatadas.getTamanho(); i++) {
+                Label label = new Label(linhasFormatadas.get(i).getValor());
                 label.setFont(new Font(20));
 
                 HBox hbox = new HBox(label);
@@ -104,6 +112,7 @@ public class MenuEmAltaController {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
     }
+
 
 
 

@@ -168,19 +168,23 @@ public class MenuNegociar {
                 String[] partes = linha.split(" ");
                 if (partes.length >= 2 && partes[1].equals(comboBoxAcoes.getValue())) {
                     String[] precosTabela = partes[2].split(",");
-                    for (int i = precosTabela.length - 1; i >= 0; i--) {
+                    for (int i = 0; i < precosTabela.length; i++) {
                         String xStr = String.valueOf(i);
                         double yValue = Double.parseDouble(precosTabela[i]);
-                        series.getData().add(new XYChart.Data(xStr, yValue));
+                        XYChart.Data data = new XYChart.Data(xStr, yValue);
+                        series.getData().add(data);
+
                     }
                 }
             }
+            series.setName("PREÇO DO ATIVO");
             graficoHistorico.getData().clear();
             graficoHistorico.getData().addAll(series);
         } catch (IOException e) {
             System.err.println("Erro na leitura do arquivo: " + e.getMessage());
         }
     }
+
 
     @FXML
     public void OnActionProcurarAcaoBotao(ActionEvent event){

@@ -101,6 +101,9 @@ public class MenuCarteirasAcoesController {
         historico.insertVenda(historico);
         atualizarQuantidadeGlobal(quantidadeValor,nomeAcaoValor, tipoCaminhoValor);
         setAcoesLabel();
+        obj.updateObject("SALDO", String.valueOf(saldo + precoTotal));
+        sceneSwitcher.switchScene("/fxml/menuCarteirasAcoes.fxml");
+
     }
 
     public void setAcoesLabel(){
@@ -130,6 +133,7 @@ public class MenuCarteirasAcoesController {
                 setQuantidadeSpinner(quantidadeSpinnerValor);
                 nomeAcao.setText(nomeAcaoValor);
                 precoUnidade.setText(java.lang.String.valueOf(precoUnidadeValor));
+
             });
         }
     }

@@ -97,9 +97,9 @@
                   </Label>
                   <VBox alignment="CENTER" prefHeight="614.0" prefWidth="647.0">
                      <children>
-                        <ScrollPane fx:id="scrollPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="601.0" prefWidth="224.0">
+                        <ScrollPane fx:id="scrollPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="596.0" prefWidth="296.0">
                            <content>
-                              <VBox fx:id="vboxCarteiras" alignment="TOP_CENTER" prefHeight="1000.0" prefWidth="206.0" />
+                              <VBox fx:id="vboxCarteiras" alignment="TOP_CENTER" prefHeight="1000.0" prefWidth="276.0" />
                            </content>
                         </ScrollPane>
                      </children>

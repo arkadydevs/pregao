@@ -81,7 +81,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="189.0" prefWidth="684.0">
                      <children>
-                        <Label fx:id="erroLabelComboBox" prefHeight="41.0" prefWidth="545.0" textFill="RED">
+                        <Label fx:id="erroLabelComboBox" alignment="CENTER" prefHeight="41.0" prefWidth="545.0" textFill="RED">
                            <font>
                               <Font name="System Bold" size="21.0" />
                            </font>

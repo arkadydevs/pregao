@@ -43,6 +43,8 @@ public class CriarAcoesController {
 
     @FXML
     private TextField textFieldNome4;
+    @FXML
+    private Label errorLabel;
     String nome;
     @FXML
     private Spinner<Integer> spinnerLote;
@@ -51,6 +53,8 @@ public class CriarAcoesController {
 
     @FXML
     public void initialize() {
+        errorLabel.setText("");
+
         updateAcoesSaidaExemploLabel();
         setComboBoxTipo();
         setSpinnerLote();
@@ -69,6 +73,7 @@ public class CriarAcoesController {
 
     @FXML
     public void onActionBotaoCriar(ActionEvent event){
+        errorLabel.setText("");
         String tipoAcao = comboBoxTipo.getValue();
         String ticket = acoeSaidaExemplo.getText();
         int loteQuantidade = spinnerLote.getValue();
@@ -92,7 +97,8 @@ public class CriarAcoesController {
 
                 Fii ativo = new Fii(nome, ticket, numeroAleatorio, loteQuantidade);
                 System.out.println(ativo.toString());
-
+                errorLabel.setText("ATIVO CRIADO COM SUCESSO!");
+                errorLabel.setStyle("-fx-text-fill: green;");
                 ativo.insert(ativo);
 
             } catch (RuntimeException e) {
@@ -104,12 +110,14 @@ public class CriarAcoesController {
 
                 Ordinaria ativo = new Ordinaria(nome, ticket, numeroAleatorio , loteQuantidade);
                 System.out.println(ativo.toString());
-
+                errorLabel.setText("ATIVO CRIADO COM SUCESSO!");
+                errorLabel.setStyle("-fx-text-fill: green;");
                 ativo.insert(ativo);
 
 
             } catch (RuntimeException e) {
                 System.err.println("ERRO " + e);
+
             }
         }
         else if (Objects.equals(tipoAcao, "preferencial")) {
@@ -117,7 +125,8 @@ public class CriarAcoesController {
 
                 Preferencial ativo = new Preferencial(nome, ticket, numeroAleatorio, loteQuantidade);
                 System.out.println(ativo.toString());
-
+                errorLabel.setText("ATIVO CRIADO COM SUCESSO!");
+                errorLabel.setStyle("-fx-text-fill: green;");
                 ativo.insert(ativo);
 
 
