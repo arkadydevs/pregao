@@ -102,9 +102,9 @@
                         </Label>
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" prefHeight="311.0" prefWidth="684.0">
+                  <HBox alignment="CENTER" prefHeight="332.0" prefWidth="684.0">
                      <children>
-                        <LineChart fx:id="graficoHistorico" prefHeight="315.0" prefWidth="521.0">
+                        <LineChart fx:id="graficoHistorico" prefHeight="322.0" prefWidth="662.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" fx:id="x" />
                           </xAxis>

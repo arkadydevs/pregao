@@ -41,6 +41,11 @@ public class MenuCarteirasController {
     private Label nomeUserLabel;
     @FXML
     private Label saldoUserLabel;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private VBox vboxCarteiras;
+
     private ListaEncadeada<Double> listaPreco = new ListaEncadeada<>();
 
     @FXML
@@ -59,6 +64,7 @@ public class MenuCarteirasController {
         setComboxCarteiras(id);
         setCarteiras();
         setAcoes();
+        spinnerTextField();
         double totalInvestido = somarListaPreco(setTotalInvestido());
         System.out.println(setTotalInvestido());
         System.out.println(totalInvestido);
@@ -67,24 +73,37 @@ public class MenuCarteirasController {
 
     @FXML
     public void OnActionAddCarteira(ActionEvent event){
-        Carteira carteira = new Carteira();
-        carteira.setIdInvestidor(id);
-        carteira.setNomeCarteira(addCarteiraTextField.getText());
-        carteira.insert(carteira);
-        setComboxCarteiras(id);
-        setCarteiras();
+        if(addCarteiraTextField.getText().equals("") || addCarteiraTextField.getText() == null){
+            errorLabel.setText("É PRECISO INSERIR UM NOME PARA CRIAR UMA NOVA CARTEIRA!");
+        }
+        else {
+            vboxCarteiras.getChildren().clear();
 
+            Carteira carteira = new Carteira();
+            carteira.setIdInvestidor(id);
+            carteira.setNomeCarteira(addCarteiraTextField.getText());
+            carteira.insert(carteira);
+            setComboxCarteiras(id);
+            setCarteiras();
+        }
+    }
+
+    public void spinnerTextField() {
+        addCarteiraTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.contains(" ")) {
+                addCarteiraTextField.setText(oldValue);
+            }
+        });
     }
 
     public void setCarteiras() {
         VBox contentVBox = new VBox();
         contentVBox.setAlignment(Pos.TOP_CENTER);
         contentVBox.getChildren().clear();
-        clearCarteiras();
 
         for (int i = 0; i < listaCarteiras.size(); i++) {
             Label label = new Label(listaCarteiras.get(i));
-            Button button = new Button("Botão " + i);
+            Button button = new Button("ACESSAR: " +  label.getText());
             label.setFont(new Font(20));
 
             button.getProperties().put("labelValue", label.getText());
@@ -104,12 +123,10 @@ public class MenuCarteirasController {
             });
         }
 
-        conteudoScrollPane.getChildren().add(contentVBox);
+        vboxCarteiras.getChildren().add(contentVBox);
     }
 
-    public void clearCarteiras() {
-        conteudoScrollPane.getChildren().clear();
-    }
+
 
     public void setComboxCarteiras(String id){
         String caminhoArquivo = "src/main/java/com/example/pregao2/bancos_de_dados/carteira.txt";

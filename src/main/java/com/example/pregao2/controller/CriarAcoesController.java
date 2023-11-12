@@ -75,9 +75,8 @@ public class CriarAcoesController {
         Random random = new Random();
         double numeroAleatorio = random.nextDouble() * 150;
         numeroAleatorio = Math.round(numeroAleatorio * 100.0) / 100.0;
-        LocalDate dataDeHoje = LocalDate.now();
         Pilha<Double> pilhaPrecos = new Pilha<>();
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 20; i++){
             double numeroAleatorioPilha = random.nextDouble() * 150;
             numeroAleatorioPilha = Math.round(numeroAleatorioPilha * 100.0) / 100.0;
             pilhaPrecos.addElemento(numeroAleatorioPilha);

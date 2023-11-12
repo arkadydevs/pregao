@@ -60,18 +60,18 @@ public class Pilha<T> {
     public String toString() {
         StringBuilder builder = new StringBuilder();
 
-        ListaEncadeada<T> ultimosCincoElementos = ultimosCinco();
+        int tamanho = this.lista.getTamanho();
+        Elemento<T> current = this.lista.getPrimeiro();
 
-        int tamanho = ultimosCincoElementos.getTamanho();
-        int inicio = Math.max(0, tamanho - 5);
-
-        for (int i = inicio; i < tamanho; i++) {
-            T elemento = ultimosCincoElementos.get(i).getValor();
+        for (int i = 0; i < tamanho; i++) {
+            T elemento = current.getValor();
             builder.append(elemento);
 
             if (i < tamanho - 1) {
                 builder.append(",");
             }
+
+            current = current.getProximoElemento();
         }
 
         return builder.toString();

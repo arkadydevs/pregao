@@ -109,9 +109,9 @@ public class MenuNegociar {
         saldoUserLabel.setText(String.valueOf(saldo));
     }
 
-    public void spinnerQuantidade() {
+    public void spinnerQuantidade(int limite) {
         SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
-                0, 20, 0);
+                0, limite, 0);
         quantidadeSpinner.setValueFactory(valueFactory);
 
         quantidadeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -200,13 +200,14 @@ public class MenuNegociar {
                     String[] partes = linha.split(" ");
                     if (partes.length >= 2 && Objects.equals(partes[1], acaoEscolhida)) {
                         acaoPreco = partes[2];
-                        spinnerQuantidade();
+                        spinnerQuantidade(Integer.parseInt(partes[3]));
                     }
                 }
                 ticketNome = (String) comboBoxAcoes.getValue();
                 checarUltimaAtualizacao(ticketNome);
                 precoAtualLabel.setText(acaoPreco);
                 nomeTicketLabel.setText(ticketNome);
+                graficoHistorico.setTitle(ticketNome);
                 setGraficoHistorico();
 
             } catch (IOException e) {
@@ -219,41 +220,45 @@ public class MenuNegociar {
     public void OnActionBotaoConfirmarCompra(ActionEvent event){
         errorLabel.setText("");
         erroLabelComboBox.setText("");
+        if(comboBoxCarteiras.getValue() == (null)){
+            errorLabel.setText("É PRECISO ESCOLHER UM CARTEIRA");
+        }
+        else{
 
+            String quantidadePreco = quantidadePrecoLabel.getText();
+            String[] precoFinalArray = quantidadePreco.split(": ");
+            double precoFinal = Double.parseDouble(precoFinalArray[1]);
+            if(precoFinal > saldo){
+                errorLabel.setText("SALDO INSUFICIENTE");
+            }else{
+                String tipoAcao = (String) comboBoxAcoesTipo.getValue();
+                saldo = saldo - precoFinal;
+                int quantidade = (int) quantidadeSpinner.getValue();
+                System.out.println(quantidade);
+                atualizarSaldo(saldo);
+                Historico compra = new Historico();
+                String empresaTicket = buscarEmpresaPeloTicket(ticketNome, tipoAcao);
+                String idCarteiraGlobal = (String) comboBoxCarteiras.getValue();
 
-        String quantidadePreco = quantidadePrecoLabel.getText();
-        String[] precoFinalArray = quantidadePreco.split(": ");
-        double precoFinal = Double.parseDouble(precoFinalArray[1]);
-        if(precoFinal > saldo){
-            errorLabel.setText("SALDO INSUFICIENTE");
-        }else{
-            String tipoAcao = (String) comboBoxAcoesTipo.getValue();
-            saldo = saldo - precoFinal;
-            int quantidade = (int) quantidadeSpinner.getValue();
-            System.out.println(quantidade);
-            atualizarSaldo(saldo);
-            Historico compra = new Historico();
-            String empresaTicket = buscarEmpresaPeloTicket(ticketNome, tipoAcao);
-            String idCarteiraGlobal = (String) comboBoxCarteiras.getValue();
+                compra.setIdCarteira(idCarteiraGlobal);
+                compra.setComprador(nome);
+                compra.setEmpresa(empresaTicket);
+                compra.setTicket(ticketNome);
+                compra.setPrecoUnitario( Double.parseDouble(acaoPreco));
+                compra.setPrecoTotal(precoFinal);
+                compra.setUnidadesCompradas(quantidade);
+                compra.setData(tempo);
+                compra.insert(compra);
 
-            compra.setIdCarteira(idCarteiraGlobal);
-            compra.setComprador(nome);
-            compra.setEmpresa(empresaTicket);
-            compra.setTicket(ticketNome);
-            compra.setPrecoUnitario( Double.parseDouble(acaoPreco));
-            compra.setPrecoTotal(precoFinal);
-            compra.setUnidadesCompradas(quantidade);
-            compra.setData(tempo);
-            compra.insert(compra);
-
-            AcoesNaCarteira acoesNaCarteira = new AcoesNaCarteira(idCarteiraGlobal, id, tipoAcao ,ticketNome, quantidade);
-            System.out.println(acoesNaCarteira.toString());
-            acoesNaCarteira.insert(acoesNaCarteira);
-            System.out.println(compra.toString());
-            atualizarQuantidadeGlobal(quantidade, ticketNome, tipoAcao);
-            errorLabel.setText("AÇÕES COMPRADAS! SALDO ATUAL: " + saldo);
-            errorLabel.setStyle("-fx-text-fill: green;");
-            obj.updateObject("SALDO", String.valueOf(saldo));
+                AcoesNaCarteira acoesNaCarteira = new AcoesNaCarteira(idCarteiraGlobal, id, tipoAcao ,ticketNome, quantidade);
+                System.out.println(acoesNaCarteira.toString());
+                acoesNaCarteira.insert(acoesNaCarteira);
+                System.out.println(compra.toString());
+                atualizarQuantidadeGlobal(quantidade, ticketNome, tipoAcao);
+                errorLabel.setText("AÇÕES COMPRADAS! SALDO ATUAL: " + saldo);
+                errorLabel.setStyle("-fx-text-fill: green;");
+                obj.updateObject("SALDO", String.valueOf(saldo));
+            }
         }
     }
 

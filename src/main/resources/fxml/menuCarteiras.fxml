@@ -78,13 +78,18 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="91.0" prefWidth="684.0" style="-fx-background-color: #e3e1e1;">
                      <children>
-                        <TextField fx:id="addCarteiraTextField" />
+                        <TextField fx:id="addCarteiraTextField" promptText="Nova Carteira" />
                         <Button fx:id="addCarteira" mnemonicParsing="false" onAction="#OnActionAddCarteira" text="ADICIONAR">
                            <HBox.margin>
                               <Insets left="30.0" />
                            </HBox.margin></Button>
                      </children>
                   </HBox>
+                  <Label fx:id="errorLabel" alignment="CENTER" prefHeight="17.0" prefWidth="445.0" textFill="RED">
+                     <font>
+                        <Font name="Arial Narrow Bold" size="12.0" />
+                     </font>
+                  </Label>
                   <Label fx:id="totalInvestidoLabel" alignment="CENTER" prefHeight="46.0" prefWidth="566.0" text="Label" textAlignment="JUSTIFY">
                      <font>
                         <Font name="System Bold" size="31.0" />
@@ -93,9 +98,9 @@
                   <VBox alignment="CENTER" prefHeight="614.0" prefWidth="647.0">
                      <children>
                         <ScrollPane fx:id="scrollPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="601.0" prefWidth="224.0">
-                          <content>
-                            <AnchorPane fx:id="conteudoScrollPane" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="206.0" />
-                          </content>
+                           <content>
+                              <VBox fx:id="vboxCarteiras" alignment="TOP_CENTER" prefHeight="1000.0" prefWidth="206.0" />
+                           </content>
                         </ScrollPane>
                      </children>
                   </VBox>

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -79,7 +80,7 @@
                      <children>
                         <ComboBox fx:id="comboBoxAcoesTipo" prefWidth="150.0" promptText="Tipo da Ação" />
                         <ComboBox fx:id="comboBoxOrdernar" prefWidth="150.0" promptText="Ordenar Por" />
-                        <Button fx:id="botaoProcurar" mnemonicParsing="false" onAction="#OnActionProcurar" prefHeight="25.0" prefWidth="114.0" text="Button" />
+                        <Button fx:id="botaoProcurar" mnemonicParsing="false" onAction="#OnActionProcurar" prefHeight="25.0" prefWidth="114.0" text="PESQUISAR!" />
                      </children>
                   </HBox>
                   <VBox prefHeight="650.0" prefWidth="684.0" style="-fx-background-color: #a9a9a9;">
@@ -128,6 +129,11 @@
                               </Label>
                            </children>
                         </HBox>
+                        <ScrollPane prefHeight="580.0" prefWidth="684.0">
+                           <content>
+                              <VBox fx:id="vboxPesquisa" alignment="TOP_CENTER" prefHeight="1000.0" prefWidth="682.0" />
+                           </content>
+                        </ScrollPane>
                      </children>
                   </VBox>
                   <HBox prefHeight="90.0" prefWidth="684.0" />
