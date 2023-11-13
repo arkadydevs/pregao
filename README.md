@@ -22,7 +22,10 @@
 
 
 ## <span style= "color: pink;"> Visão geral </span>
-Este é um projeto Java que implementa uma simulação de um pregão simplificado, utilizando bancos de dados em formato de arquivo de texto (TXT) para guardar os dados das classes. Utilizamos a linguagem Java, com uma lógica fortemente orientada a objetos.
+   Este é um projeto Java que implementa uma simulação de um pregão simplificado, utilizando bancos de dados em formato de arquivo de texto (TXT) para guardar os dados das classes. Utilizamos a linguagem Java, com uma lógica fortemente orientada a objetos.
+
+## Objetivo
+   O objetivo deste projeto é criar um sistema de pregão em Java, com interface gráfica em JavaFX, como parte da disciplina de lógica. Buscamos aplicar os conceitos aprendidos ao longo do ano, como programação orientada a objetos, algoritmos de estruturas de dados e algoritmos de ordenação. Durante o desenvolvimento do código, contamos com as IDEs IntelliJ e Visual Studio, além do Maven para facilitar o gerenciamento de dependências e compilação. Essas ferramentas foram escolhidas para proporcionar um ambiente de desenvolvimento eficiente. Em resumo, este projeto é uma oportunidade prática de testar e consolidar os conhecimentos adquiridos em sala de aula.
 
 ## Objetivo
 O objetivo deste projeto é criar um sistema de pregão em Java, com interface gráfica em JavaFX, como parte da disciplina de lógica. Buscamos aplicar os conceitos aprendidos ao longo do ano, como programação orientada a objetos, algoritmos de estruturas de dados e algoritmos de ordenação. Durante o desenvolvimento do código, contamos com as IDEs IntelliJ e Visual Studio, além do Maven para facilitar o gerenciamento de dependências e compilação. Essas ferramentas foram escolhidas para proporcionar um ambiente de desenvolvimento eficiente. Em resumo, este projeto é uma oportunidade prática de testar e consolidar os conhecimentos adquiridos em sala de aula.
