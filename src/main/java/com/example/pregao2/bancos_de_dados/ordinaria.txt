@@ -2,5 +2,5 @@ AzulLinhasÁereasBrasileiras AZUL3 40.94 60
 Bradesco BBDC3 97.38 80
 CasasBahia BHIA3 81.08 90
 Cielo CIEL3 21.09 30
-MagazLuiza MGLU3 53.59 94
+MagazLuiza MGLU3 53.59 92
 SABESP SBSP3 37.13 32

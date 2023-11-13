@@ -91,25 +91,30 @@ public class MenuCarteirasAcoesController {
     }
     @FXML
     public void OnActionBotaoConfirmarCompra(){
-        LocalDateTime horaDaVenda = LocalDateTime.now();
         int quantidadeValor = (Integer) quantidadeSpinner.getValue();
-        Historico historico = new Historico(0, carteiraNome, nome, nomeEmpresa , nomeAcaoValor,precoUnidadeValor, precoTotal, quantidadeValor,horaDaVenda);
-        System.out.println(historico.toString());
-        atualizarSaldo(precoTotal);
+        if(quantidadeValor  == 0){
+            errorLabel.setText("VOCÊ NÃO PODE COMPRAR 0 ATIVOS");
+        }
+        else{
+            LocalDateTime horaDaVenda = LocalDateTime.now();
+            Historico historico = new Historico(0, carteiraNome, nome, nomeEmpresa , nomeAcaoValor,precoUnidadeValor, precoTotal, quantidadeValor,horaDaVenda);
+            System.out.println(historico.toString());
+            atualizarSaldo(precoTotal);
 
-        atualizarQuantidade((Integer) quantidadeSpinner.getValue(), nomeAcaoValor);
-        historico.insertVenda(historico);
-        atualizarQuantidadeGlobal(quantidadeValor,nomeAcaoValor, tipoCaminhoValor);
-        setAcoesLabel();
-        obj.updateObject("SALDO", String.valueOf(saldo + precoTotal));
-        sceneSwitcher.switchScene("/fxml/menuCarteirasAcoes.fxml");
+            atualizarQuantidade((Integer) quantidadeSpinner.getValue(), nomeAcaoValor);
+            historico.insertVenda(historico);
+            atualizarQuantidadeGlobal(quantidadeValor,nomeAcaoValor, tipoCaminhoValor);
+            setAcoesLabel();
+            obj.updateObject("SALDO", String.valueOf(saldo + precoTotal));
+            sceneSwitcher.switchScene("/fxml/menuCarteirasAcoes.fxml");
 
+        }
     }
 
     public void setAcoesLabel(){
         for (int i = 0; i < listaAcoes.size(); i++) {
             Label label = new Label(Arrays.toString(listaAcoes.get(i)));
-            Button button = new Button("Botão " + i);
+            Button button = new Button("Acessar");
 
             button.getProperties().put("labelValue", label.getText());
 

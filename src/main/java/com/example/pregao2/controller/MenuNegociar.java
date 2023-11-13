@@ -76,6 +76,7 @@ public class MenuNegociar {
     private String ticketNome = "";
     private String tipoObj = "";
     private double precoTotal;
+
     SceneSwitcher sceneSwitcher = new SceneSwitcher(MainApp.primaryStage);
     ObjectSaveManager obj = new ObjectSaveManager();
     LocalDateTime tempo = LocalDateTime.now();
@@ -227,7 +228,11 @@ public class MenuNegociar {
         if(comboBoxCarteiras.getValue() == (null)){
             errorLabel.setText("É PRECISO ESCOLHER UM CARTEIRA");
         }
+        else if(quantidade == 0){
+            errorLabel.setText("VOCÊ NÃO PODE COMPRAR 0 ATIVOS");
+        }
         else{
+
 
             String quantidadePreco = quantidadePrecoLabel.getText();
             String[] precoFinalArray = quantidadePreco.split(": ");
