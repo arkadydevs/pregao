@@ -25,7 +25,20 @@
    Este é um projeto Java que implementa uma simulação de um pregão simplificado, utilizando bancos de dados em formato de arquivo de texto (TXT) para guardar os dados das classes. Utilizamos a linguagem Java, com uma lógica fortemente orientada a objetos. Feito para aprender conceitos báiscos de investimentos.
 
 ## Como baixar?
-É preciso clonar o repositorio
+Primeiro é preciso clonar o respositório
+```gitexclude
+git clone https://github.com/arkadydevs/pregao.git
+```
+### 1° Método
+Depois é preciso ter o JavaFX instalado na máquina para rodar usando esse comando dentro do out/artifacts/pregao_jar
+```gitexclude
+java --module-path "/caminho/para/javafx/lib" --add-modules javafx.controls,javafx.fxml -jar pregao.jar
+```
+### 2° Método
+Ir em alguma IDEA (IntelliJ, NetBeans, Eclipse, Node++) e rodar a classe MainApp do programa
+
+
+
 
 ## Objetivo
 O objetivo deste projeto é criar um sistema de pregão em Java, com interface gráfica em JavaFX, como parte da disciplina de lógica. Buscamos aplicar os conceitos aprendidos ao longo do ano, como programação orientada a objetos, algoritmos de estruturas de dados e algoritmos de ordenação. Durante o desenvolvimento do código, contamos com as IDEs IntelliJ e Visual Studio, além do Maven para facilitar o gerenciamento de dependências e compilação. Essas ferramentas foram escolhidas para proporcionar um ambiente de desenvolvimento eficiente. Em resumo, este projeto é uma oportunidade prática de testar e consolidar os conhecimentos adquiridos em sala de aula.
